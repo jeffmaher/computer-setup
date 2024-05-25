@@ -1,5 +1,7 @@
 set -e
 
+# ** Script ased on https://cloud.google.com/sdk/docs/install#deb **
+
 # Install dependencies
 sudo apt-get install apt-transport-https ca-certificates gnupg curl sudo -y
 
