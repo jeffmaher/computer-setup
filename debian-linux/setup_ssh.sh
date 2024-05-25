@@ -2,7 +2,7 @@
 set -e
 
 # Install SSH
-sudo apt install ssh -y
+sudo apt install openssh-client -y
 
 # Setup an SSH key
 ssh-keygen -t ed25519
