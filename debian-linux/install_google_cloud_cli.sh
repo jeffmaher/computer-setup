@@ -3,7 +3,7 @@ set -e
 # ** Script ased on https://cloud.google.com/sdk/docs/install#deb **
 
 # Install dependencies
-sudo apt-get install apt-transport-https ca-certificates gnupg curl sudo -y
+sudo apt-get install apt-transport-https ca-certificates gnupg curl -y
 
 # Install Google Cloud public key
 curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
