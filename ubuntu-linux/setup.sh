@@ -4,7 +4,7 @@ set -e
 # - Add values for constants in this file
 # - Run as sudo
 # - Run in this directory
-
+# - Comment out anything not wanted
 
 
 # -- CONSTANTS --
@@ -12,6 +12,7 @@ UBUNTU_PRO_KEY=""
 GIT_USER_NAME=""
 GIT_USER_EMAIL=""
 SSH_EMAIL=""
+
 
 # -- OUTPUT FUNCTIONS --
 current_step=0
@@ -25,12 +26,11 @@ post_setup() {
     checklist="$checklist\n- $1"
 }
 
-# -- RUN STEPS --
+# -- PERFORM SETUP --
 # Create a directory to work within
 mkdir -p downloads
 cd downloads
 
-# Get the latest updates
 status "Update system packages"
 apt update
 apt upgrade -y
@@ -39,6 +39,10 @@ snap refresh
 status "Turn on Firewall"
 ufw enable
 apt install gufw
+
+status "Attach to Ubuntu Pro"
+pro attach $UBUNTU_PRO_KEY
+pro disable livepatch
 
 status "Install VIM as text editor"
 apt install vim
@@ -192,11 +196,11 @@ apt install ./steam.deb
 post_setup "Login to Steam and configure Proton"
 
 
-post_setup "Get login screen to show up on the correct monitor"
-post_setup "Install programming languages"
 post_setup "Configure keyboard shortcuts (system and window tiling extension)"
 post_setup "Configure settings in the Settings app"
 post_setup "Configure Terminal app preferences"
+post_setup "Get login screen to show up on the correct monitor"
+post_setup "Install programming languages"
 
 cd ..
 echo "#### POST SETUP CHECKLIST ####"
