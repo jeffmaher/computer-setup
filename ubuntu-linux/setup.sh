@@ -1,5 +1,11 @@
-# This script should be run using sudo
 set -e
+
+# RUN INSTRUCTIONS
+# - Add values for constants in this file
+# - Run as sudo
+# - Run in this directory
+
+
 
 # -- CONSTANTS --
 UBUNTU_PRO_KEY=""
@@ -65,9 +71,12 @@ add-apt-repository ppa:solaar-unifying/stable
 apt update
 apt install solaar
 post_setup "Disable Solaar from always running in the Startup App"
+post_setup "Configure Solaar to use F keys"
+
 
 status "Install Camera app"
 apt install gnome-snapshot
+
 
 status "Install GNOME Extensions app and browser connector"
 apt install gnome-browser-connector
@@ -182,7 +191,13 @@ wget https://cdn.cloudflare.steamstatic.com/client/installer/steam.deb
 apt install ./steam.deb
 post_setup "Login to Steam and configure Proton"
 
+
+post_setup "Get login screen to show up on the correct monitor"
+post_setup "Install programming languages"
+post_setup "Configure keyboard shortcuts (system and window tiling extension)"
+post_setup "Configure settings in the Settings app"
+post_setup "Configure Terminal app preferences"
+
 cd ..
 echo "#### POST SETUP CHECKLIST ####"
 echo $checklist
-
