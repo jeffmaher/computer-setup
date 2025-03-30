@@ -1,0 +1,12 @@
+[Unit] 
+Description=Disable XHCI wake-up
+After=network.target
+Before=sleep.target 
+AllowIsolate=yes 
+
+[Service] 
+Type=oneshot
+ExecStart=/bin/sh -c "echo XHCI > /proc/acpi/wakeup" 
+
+[Install] 
+WantedBy=multi-user.target
