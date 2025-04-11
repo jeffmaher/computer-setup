@@ -69,6 +69,9 @@ apt update
 apt install firefox  -y
 post_setup "Setup Firefox"
 
+status "Install Google Chrome"
+wget wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+apt install google-chrome-stable-current-amd64.deb -y
 
 status "Install Solaar for Logitech keyboards and mice"
 add-apt-repository ppa:solaar-unifying/stable
