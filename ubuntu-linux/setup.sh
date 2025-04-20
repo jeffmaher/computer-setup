@@ -112,8 +112,12 @@ status "Install Pinta for image/screenshot annotation"
 snap install pinta
 
 
-status "Install Kooha for screen recording"
-snap install kooha
+# Kooha wasn't capturing microphone
+# status "Install Kooha for screen recording"
+# snap install kooha
+
+status "Install VokoscreenNG for screen recording"
+apt install vokoscreen-ng
 
 
 status "Install LosslessCut for simple video editing"
@@ -159,20 +163,20 @@ post_setup "Setup Visual Studio Code"
 
 
 status "Install Docker"
+# Enable sign-in to docker.com
+apt install pass  -y
+post_setup "Generate a GPG key"
+post_setup "Setup pass storage (to enable Docker login)"
+# Setup package repository
 apt install ca-certificates curl  -y
 install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 chmod a+r /etc/apt/keyrings/docker.asc
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
 apt update
-apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin  -y
+# Install Docker Desktop
 wget "https://desktop.docker.com/linux/main/amd64/docker-desktop-amd64.deb"
 apt install ./docker-desktop-amd64.deb  -y
-cat ../configs/docker_commands.sh >> ~/.bashrc
-systemctl disable docker.service docker.socket
-apt install pass  -y
-post_setup "Generate a GPG key"
-post_setup "Setup pass storage (to enable Docker login)"
 post_setup "Login to Docker account"
 
 
