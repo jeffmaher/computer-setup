@@ -1,18 +1,18 @@
 set -e
 
 #####
-Instructions:
-1. Open terminal
-1. Download this repo: git clone https://github.com/jeffmaher/computer-setup.git
-1. Open setup.sh and fill in CHOICES/VARIABLES section
-1. 
-
+# Instructions:
+# 1. Open terminal
+# 1. Download this repo: git clone https://github.com/jeffmaher/computer-setup.git
+# 1. Open setup.sh and fill in CHOICES/VARIABLES section
+# 1. 
+#
 #####
 
 
 # --- CHOICES / VARIABLES ---
 # DNS choices: "cira" or "cloudflare"
-export DNS_PROVIDER="cloudflare"
+# export DNS_PROVIDER="cloudflare"
 
 
 # --- FUNCTIONS ---
@@ -28,38 +28,59 @@ post_setup() {
 }
 
 # --- SYSTEM ITEMS ---
-# Install updates
+status "Update system packages"
 sudo dnf update --refresh -y
 
-# Flatpak: For install applications (i.e. flatpaks)
+status "Install Flatpak"
 sh install-flatpak.sh
 
-# Setup DNS over TLS
-# Reference: https://fedoramagazine.org/use-dns-over-tls/
-sudo cp "configs/resolved-${DNS_PROVIDER}.conf" /etc/systemd/resolved.conf
-sudo systemctl start systemd-resolved
-sudo systemctl enable systemd-resolved
-sudo systemctl restart NetworkManager
-resolvectl status
-
-
+status "Setup DNS over TLS and DNSSEC"
+sh setup-dns.sh
 
 # --- APPS ---
 
-# Install VIM
+status "Install GNOME Tweaks for controlling startup apps"
+# TODO
+
+status "Install VIM"
 sh install-vim.sh
 
-# Uninstall Fedora's Firefox, and install Firefox from Flathub (officially maintained by Mozilla)
-sudo dnf remove firefox firefox-langpacks -y
-flatpak install flathub org.mozilla.firefox -y
+status "Install Mozilla Firefox"
+sh install-firefox.sh
 
-# Install 1Password
-# sudo needed since it's install a new repository
-sudo flatpak install https://downloads.1password.com/linux/flatpak/1Password.flatpakref -y
+status "Install 1Password"
+sh install-1password.sh
+
+status "Install Solaar for managing Logitech devices"
+# sh install-solaar.sh
+# TODO
+
+status "Install Visual Studio Code"
+flatpak install flathub com.visualstudio.code -y
+#flatpak install flathub com.vscodium.codium -y
 
 
+status "Install Google Chrome"
+sh install-google-chrome.sh
 
-# Zoom: Video conferencing app
+
+status "Install Slack chat tool"
+# TODO
+
+# TODO GNOME Extensions app
+# TODO Signal
+# TODO Pinta
+# TODO Kooha or VokoscreenNG
+# TODO LosslessCut
+# TODO Mullvad VPN
+# TODO Git
+# TODO SSH
+# TODO VLC or Totem
+# TODO Docker
+# TODO Disable screenshot sound
+# TODO Steam
+# TODO Disable USB Wakeup
+
+
+status "Install Zoom Video Conferencing"
 sh install-zoom.sh
-
-
