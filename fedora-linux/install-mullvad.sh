@@ -4,7 +4,7 @@ set -e
 
 # Fedora 41 and newer
 # Add the Mullvad repository server to dnf
-sudo dnf config-manager addrepo --from-repofile=https://repository.mullvad.net/rpm/stable/mullvad.repo
+sudo dnf config-manager addrepo --overwrite --from-repofile=https://repository.mullvad.net/rpm/stable/mullvad.repo
 
 # Install the package
-sudo dnf install mullvad-vpn
+sudo dnf install mullvad-vpn -y
