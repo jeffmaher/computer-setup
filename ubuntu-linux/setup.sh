@@ -1,18 +1,8 @@
 set -e
 
-# RUN INSTRUCTIONS
-# - Add values for constants in this file
-# - Run as sudo
-# - Run in this directory
-# - Comment out anything not wanted
-
-
-# -- CONSTANTS --
-UBUNTU_PRO_KEY=""
-GIT_USER_NAME=""
-GIT_USER_EMAIL=""
-SSH_EMAIL=""
-
+# Run after setup-system.sh and rebooting
+# Tested on Ubuntu Linux 24.04
+# USAGE: sh setup.sh 
 
 # -- OUTPUT FUNCTIONS --
 current_step=0
@@ -26,177 +16,89 @@ post_setup() {
     checklist="$checklist\n- $1"
 }
 
-# -- PERFORM SETUP --
-# Create a directory to work within
-mkdir -p downloads
-cd downloads
-
-status "Update system packages"
-apt update
-apt upgrade -y
-snap refresh
-
-status "Turn on Firewall"
-ufw enable
-apt install gufw  -y
-
-status "Attach to Ubuntu Pro"
-pro attach $UBUNTU_PRO_KEY
-pro disable livepatch
-
+# -- INSTALL APPS --
 status "Install VIM as text editor"
-apt install vim  -y
-update-alternatives --set editor /usr/bin/vim.basic
+sh install-vim.sh
 
-status "Install DNS Over TLS and DNSSEC provider"
-cat ../configs/dns_config.conf >> /etc/systemd/resolved.conf
-systemctl restart systemd-resolved.service
-systemctl restart NetworkManager.service
+status "Install Solaar for managing Logitech keyboards and mice"
+sh install-solaar.sh
+checklist "Solaar: Setup keyboard and mouse bindings"
+checklist "Solaar: Verify that it isn't starting up at startup"
 
-status "Install password manager"
-wget https://downloads.1password.com/linux/debian/amd64/stable/1password-latest.deb
-apt install ./1password-latest.deb  -y
-post_setup "Setup password manager"
+status "Install GNOME Extensions app"
+sh install-gnome-extensions-app.sh
 
-status "Install Firefox DEB package (instead of snap)"
-snap remove --purge firefox
-apt remove firefox
-install -d -m 0755 /etc/apt/keyrings
-wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
-echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null
-cat ../configs/firefox_repo.conf | tee /etc/apt/preferences.d/mozilla
-apt update
-apt install firefox  -y
-post_setup "Setup Firefox"
+status "Install Mozilla Firefox"
+sh install-firefox.sh
+checklist "Mozilla Firefox: Setup profiles"
+checklist "Mozilla Firefox: Configure password manager"
+checklist "Mozilla Firefox: Configure privacy settings"
 
 status "Install Google Chrome"
-wget wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-apt install google-chrome-stable-current-amd64.deb -y
+sh install-google-chrome.sh
+checklist "Google Chrome: Setup profiles"
+checklist "Google Chrome: Configure password manager"
+checklist "Google Chrome: Configure privacy settings"
+checklist "Google Chrome: Setup PWAs"
+
+status "Install 1Password"
+sh install-1password.sh
+
+status "Install Visual Studio Code"
+sh install-vscode.sh
 
 status "Install Solaar for Logitech keyboards and mice"
-add-apt-repository ppa:solaar-unifying/stable
-apt update
-apt install solaar  -y
+sh install-solaar.sh
 post_setup "Disable Solaar from always running in the Startup App"
 post_setup "Configure Solaar to use F keys"
 
+status "Install Camera for testing webcam"
+sh install-cameria.sh
 
-status "Install Camera app"
-apt install gnome-snapshot  -y
+status "Install Signal Private Messenger"
+sh install-signal.sh
+checklist "Signal: Sync with phone"
 
+status "Install Pinta for light image editings and screenshot markup"
+sh install-pinta.sh
 
-status "Install GNOME Extensions app and browser connector"
-apt install gnome-browser-connector  -y
+# TODO Choose between Kooha or VokoscreenNG
+status "Install Kooha for screen and audio capture"
+sh install-kooha.sh
+# status "Install VokoscreenNG for screen recording"
+# sudo apt install vokoscreen-ng
 
+status "Install Lossless Cut for video trimming"
+sh install-lossless-cut.sh
 
-status "Install Slack"
-post_setup "Setup Slack accounts"
+status "Install Mullvad for VPNing"
+sh install-mullvad.sh
+checklist "Mullvad: Login to VPN account"
 
-
-status "Install Zoom video conferencing"
-wget https://zoom.us/client/latest/zoom_amd64.deb
-apt install ./zoom_amd64.deb  -y
-post_setup "Login to Zoom"
-
-
-status "Install Signal"
-wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
-cat signal-desktop-keyring.gpg |  tee /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
-echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' | tee /etc/apt/sources.list.d/signal-xenial.list
-apt update
-apt install signal-desktop  -y
-post_setup "Link Signal to phone"
-
-
-status "Install Pinta for image/screenshot annotation"
-snap install pinta
-
-
-# Kooha wasn't capturing microphone
-# status "Install Kooha for screen recording"
-# snap install kooha
-
-status "Install VokoscreenNG for screen recording"
-apt install vokoscreen-ng
-
-
-status "Install LosslessCut for simple video editing"
-snap install losslesscut
-
-
-status "Install Mullvad VPN"
-curl -fsSLo /usr/share/keyrings/mullvad-keyring.asc https://repository.mullvad.net/deb/mullvad-keyring.asc
-echo "deb [signed-by=/usr/share/keyrings/mullvad-keyring.asc arch=$( dpkg --print-architecture )] https://repository.mullvad.net/deb/stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/mullvad.list
-apt update
-apt install mullvad-vpn  -y
-post_setup "Login to Mullvad VPN"
-
-
-status "Install Git"
-apt install git  -y
-git config --global user.name "$GIT_USER_NAME"
-git config --global user.email "$GIT_USER_EMAIL"
-
-
-status "Setup SSH key"
-ssh-keygen -t ed25519 -C "$SSH_EMAIL"
-post_setup "Add SSH key to relevant places"
-
+status "Install Zoom Video Conferencing"
+sh install-zoom.sh
+checklist "Zoom: Login"
 
 status "Install Google Cloud CLI"
-apt-get install apt-transport-https ca-certificates gnupg curl -y
-curl https://packages.cloud.google.com/apt/doc/apt-key.gpg |  gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
-echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-apt update
-apt install google-cloud-cli -y
-post_setup "Login to Google Cloud CLI"
+sh install-gcp-cli.sh
+post_setup "GCP: Login"
 
-
-status "Install VLC media player"
-snap install vlc
-post_setup "Configure VLC UI"
-
-
-status "Install Visual Studio Code"
-snap install --classic code
-post_setup "Setup Visual Studio Code"
-
+status "Install GNOME Videos/Totem"
+sh install-video-player.sh
 
 status "Install Docker"
-# Enable sign-in to docker.com
-apt install pass  -y
-post_setup "Generate a GPG key"
-post_setup "Setup pass storage (to enable Docker login)"
-# Setup package repository
-apt install ca-certificates curl  -y
-install -m 0755 -d /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-chmod a+r /etc/apt/keyrings/docker.asc
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-apt update
-# Install Docker Desktop
-wget "https://desktop.docker.com/linux/main/amd64/docker-desktop-amd64.deb"
-apt install ./docker-desktop-amd64.deb  -y
-post_setup "Login to Docker account"
-
-
-status "Disable the screenshot sound"
-mv /usr/share/sounds/freedesktop/stereo/camera-shutter.oga /usr/share/sounds/freedesktop/stereo/camera-shutter-disabled.oga
-
+sh install-docker-desktop.sh
+post_setup "Docker: Generate a GPG key"
+post_setup "Docker: Setup pass storage (to enable Docker login)"
+post_setup "Docker: Login"
 
 status "Install LibreOffice for opening MS Office docs and more complex PDF editing"
-snap install libreoffice
+sh install-libre-office.sh
 
 
-status "Disable USB/XHCI wake from sleep"
-cp ../configs/disable-usb-wakeup.service /etc/systemd/system/.
-systemctl enable disable-usb-wakeup.service
-
-
-status "Install Steam"
-wget https://cdn.cloudflare.steamstatic.com/client/installer/steam.deb
-apt install ./steam.deb  -y
-post_setup "Login to Steam and configure Proton"
+# status "Install Steam"
+# sh install-steam.sh
+# post_setup "Login to Steam and configure Proton"
 
 
 post_setup "Configure keyboard shortcuts (system and window tiling extension)"
@@ -204,6 +106,7 @@ post_setup "Configure settings in the Settings app"
 post_setup "Configure Terminal app preferences"
 post_setup "Get login screen to show up on the correct monitor"
 post_setup "Install programming languages"
+post_setup "Evaluate X11 vs. Wayland depending on the system"
 
 cd ..
 echo "#### POST SETUP CHECKLIST ####"

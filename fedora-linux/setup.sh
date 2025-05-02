@@ -1,11 +1,11 @@
 set -e
 
 #####
+# Tested on Fedora Workstation 42
 # Instructions:
 # 1. Open terminal
 # 1. Download this repo: git clone https://github.com/jeffmaher/computer-setup.git
-# 1. Open setup.sh and fill in CHOICES/VARIABLES section
-# 1. 
+# 1. Open this file and fill in CHOICES/VARIABLES section
 #
 #####
 
@@ -116,8 +116,7 @@ status "Install Mullvad for VPNing"
 sh install-mullvad.sh
 checklist "Mullvad: Login to VPN account"
 
-status "Install Zoom Video Conferencing"
-sh install-zoom.sh
+
 
 
 status "Install Docker for OS/runtime containers"
