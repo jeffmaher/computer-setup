@@ -6,7 +6,7 @@ set -e
 
 # -- OUTPUT FUNCTIONS --
 status() {
-    echo "##### $1 #####"
+    echo "\n\n##### $1 #####"
 }
 
 # -- INSTALL APPS --
@@ -35,7 +35,7 @@ status "Install Solaar for Logitech keyboards and mice"
 sh install-solaar.sh
 
 status "Install Camera for testing webcam"
-sh install-cameria.sh
+sh install-camera.sh
 
 status "Install Signal Private Messenger"
 sh install-signal.sh
@@ -57,9 +57,6 @@ sh install-mullvad.sh
 
 status "Install Zoom Video Conferencing"
 sh install-zoom.sh
-
-status "Install Google Cloud CLI"
-sh install-gcp-cli.sh
 
 status "Install GNOME Videos/Totem"
 sh install-video-player.sh
