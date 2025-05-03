@@ -5,25 +5,25 @@ set -e
 
 # --- FUNCTIONS ---
 status() {
-    echo "##### [$current_step]: $1 #####"
+    echo "##### $1 #####"
 }
 
 
 # --- SYSTEM AND FOUNDATIONAL ITEMS ---
 status "Turn on Firewall"
-ufw enable
-apt install gufw  -y
+sudo ufw enable
+sudo apt install gufw  -y
 
 status "Remove things that won't be used"
 sh uninstalls.sh
 
 status "Attach to Ubuntu Pro"
-pro attach $1
-pro disable livepatch
+sudo pro attach $1
+sudo pro disable livepatch
 
 status "Update system packages"
-apt update
-apt upgrade -y
+sudo apt update
+sudo apt upgrade -y
 snap refresh
 
 status "Install DNS Over TLS and DNSSEC provider"
