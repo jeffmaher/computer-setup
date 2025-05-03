@@ -20,10 +20,8 @@ GIT_USER_EMAIL=""
 
 
 # --- FUNCTIONS ---
-current_step=0
 status() {
-    echo "##### [$current_step]: $1 #####"
-    declare -g current_step=$((current_step + 1))
+    echo "##### $1 #####"
 }
 
 # --- SYSTEM AND FOUNDATIONAL ITEMS ---

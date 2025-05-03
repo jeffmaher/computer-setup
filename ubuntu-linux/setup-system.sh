@@ -4,10 +4,8 @@ set -e
 
 
 # --- FUNCTIONS ---
-current_step=0
 status() {
     echo "##### [$current_step]: $1 #####"
-    declare -g current_step=$((current_step + 1))
 }
 
 
