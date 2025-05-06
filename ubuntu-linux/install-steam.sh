@@ -1,5 +1,5 @@
 set -e
 
-DOWNLOAD_LOCATION=/var/temp/steam.deb
+DOWNLOAD_LOCATION=/var/tmp/steam.deb
 wget https://cdn.cloudflare.steamstatic.com/client/installer/steam.deb -O $DOWNLOAD_LOCATION
-sudo apt install ./steam.deb  -y
+sudo apt install $DOWNLOAD_LOCATION  -y
