@@ -9,6 +9,9 @@ status() {
     echo "\n\n##### $1 #####"
 }
 
+status "Check permissions"
+sudo --validate
+
 # -- INSTALL APPS --
 status "Install VIM as text editor"
 sh install-vim.sh
@@ -43,11 +46,8 @@ sh install-signal.sh
 status "Install Pinta for light image editings and screenshot markup"
 sh install-pinta.sh
 
-# TODO Choose between Kooha or VokoscreenNG
-status "Install Kooha for screen and audio capture"
-sh install-kooha.sh
-# status "Install VokoscreenNG for screen recording"
-# sudo apt install vokoscreen-ng
+status "Install Screen Capture software"
+sh install-screen-capture.sh
 
 status "Install Lossless Cut for video trimming"
 sh install-lossless-cut.sh
