@@ -1,6 +1,7 @@
 set -e
 
 # USAGE: sh setup-system.sh <Ubuntu Pro key>
+# Tested on Ubuntu Desktop 24.04.2 LTS and 25.04 
 
 
 # --- FUNCTIONS ---
@@ -8,14 +9,14 @@ status() {
     echo "##### $1 #####"
 }
 
+status "Check permissions"
+sudo --validate
+
 
 # --- SYSTEM AND FOUNDATIONAL ITEMS ---
 status "Turn on Firewall"
 sudo ufw enable
 sudo apt install gufw  -y
-
-status "Remove things that won't be used"
-sh uninstalls.sh
 
 status "Attach to Ubuntu Pro"
 sudo pro attach $1
