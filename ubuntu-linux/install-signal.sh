@@ -5,8 +5,9 @@ set -e
 # Linux distributions such as Ubuntu, Mint etc.
 
 # 1. Install our official public software signing key:
-wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg;
-cat signal-desktop-keyring.gpg | sudo tee /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
+KEYRING_FILE_PATH=/var/tmp/signal-desktop-keyring.gpg
+wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > $KEYRING_FILE_PATH;
+cat $KEYRING_FILE_PATH | sudo tee /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
 
 # 2. Add our repository to your list of repositories:
 echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' | sudo tee /etc/apt/sources.list.d/signal-xenial.list
