@@ -52,13 +52,13 @@ sh install-screen-capture.sh
 status "Install Lossless Cut for video trimming"
 sh install-lossless-cut.sh
 
-status "Install Mullvad for VPNing"
+status "Install Mozilla VPN"
 sh install-mullvad.sh
 
 status "Install Zoom Video Conferencing"
 sh install-zoom.sh
 
-status "Install GNOME Videos/Totem"
+status "Install VLC Video Player"
 sh install-video-player.sh
 
 status "Install Docker"
