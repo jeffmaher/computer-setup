@@ -43,4 +43,4 @@ status "Disable USB/XHCI wake from sleep"
 sh config-system-sleep.sh
 
 status "Rebooting"
-sudo reboot
+sudo systemctl reboot -i
