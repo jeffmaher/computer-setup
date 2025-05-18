@@ -66,3 +66,5 @@ sh install-docker-desktop.sh
 
 status "Install LibreOffice for opening MS Office docs and more complex PDF editing"
 sh install-libre-office.sh
+
+status "Done installing apps!"
