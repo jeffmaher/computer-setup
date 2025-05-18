@@ -42,5 +42,8 @@ sh install-git.sh
 status "Disable USB/XHCI wake from sleep"
 sh config-system-sleep.sh
 
+status "Install curl"
+sudo apt install curl -y
+
 status "Rebooting"
 sudo systemctl reboot -i

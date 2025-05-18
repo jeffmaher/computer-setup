@@ -31,8 +31,8 @@ sh install-google-chrome.sh
 status "Install 1Password"
 sh install-1password.sh
 
-status "Install Visual Studio Code"
-sh install-vscode.sh
+status "Install Sublime Text and Merge"
+sh install-sublime.sh
 
 status "Install Solaar for Logitech keyboards and mice"
 sh install-solaar.sh
