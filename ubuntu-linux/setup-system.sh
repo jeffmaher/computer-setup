@@ -1,6 +1,6 @@
 set -e
 
-# USAGE: sh setup-system.sh <Ubuntu Pro key>
+# USAGE: sh setup-system.sh
 # Tested on Ubuntu Desktop 24.04.2 LTS and 25.04 
 
 
@@ -18,9 +18,9 @@ status "Turn on Firewall"
 sudo ufw enable
 sudo apt install gufw  -y
 
-status "Attach to Ubuntu Pro"
-sudo pro attach $1
-sudo pro disable livepatch
+# status "Attach to Ubuntu Pro"
+# sudo pro attach $1
+# sudo pro disable livepatch
 
 status "Update system packages"
 sudo apt update
