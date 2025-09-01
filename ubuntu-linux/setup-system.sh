@@ -20,7 +20,7 @@ sudo apt install gufw  -y
 
 # status "Attach to Ubuntu Pro"
 # sudo pro attach $1
-# sudo pro disable livepatch
+sudo pro disable livepatch
 
 status "Update system packages"
 sudo apt update
@@ -44,6 +44,9 @@ sh config-system-sleep.sh
 
 status "Install curl"
 sudo apt install curl -y
+
+# status "Enable suspend for Nvidia Geforce RTX 40xx+"
+# sh config-nvidia-suspend.sh
 
 status "Rebooting"
 sudo systemctl reboot -i

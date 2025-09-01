@@ -34,9 +34,6 @@ sh install-1password.sh
 status "Install Sublime Text and Merge"
 sh install-sublime.sh
 
-status "Install Solaar for Logitech keyboards and mice"
-sh install-solaar.sh
-
 status "Install Camera for testing webcam"
 sh install-camera.sh
 
@@ -53,10 +50,7 @@ status "Install Lossless Cut for video trimming"
 sh install-lossless-cut.sh
 
 status "Install Mozilla VPN"
-sh install-mullvad.sh
-
-status "Install Zoom Video Conferencing"
-sh install-zoom.sh
+sh install-vpn.sh
 
 status "Install VLC Video Player"
 sh install-video-player.sh
@@ -66,5 +60,8 @@ sh install-docker-desktop.sh
 
 status "Install LibreOffice for opening MS Office docs and more complex PDF editing"
 sh install-libre-office.sh
+
+status "Install Todoist"
+sh install-todoist.sh
 
 status "Done installing apps!"
