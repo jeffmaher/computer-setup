@@ -1,0 +1,3 @@
+SublimeHQ.SublimeMerge
+SublimeHQ.SublimeText.4
+# VLC (on jackfruit)
