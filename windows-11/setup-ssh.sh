@@ -63,6 +63,8 @@ if ! grep -q "keychain --eval --quiet --agents ssh" ~/.bashrc; then
 
 # SSH keychain - start agent without adding keys automatically
 eval $(keychain --eval --quiet --agents ssh)
+alias add-ssh-personal="ssh-add ~/.ssh/id_ed25519_$PERSONAL_SUFFIX"
+alias add-ssh-work="ssh-add ~/.ssh/id_ed25519_$WORK_SUFFIX"
 EOF
     echo "Keychain configuration added to .bashrc"
 else
