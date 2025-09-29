@@ -37,7 +37,8 @@ $apps = @(
     @{ id = "Zoom.Zoom"; name = "Zoom" },
     #@{ id = "SublimeHQ.SublimeText.4"; name = "Sublime Text" },
     #@{ id = "SublimeHQ.SublimeMerge"; name = "Sublime Merge" },
-    @{ id = "VideoLAN.VLC"; name = "VLC Media Player"}
+    @{ id = "VideoLAN.VLC"; name = "VLC Media Player"},
+    @{ id = "Figma.Figma"; name = "Figma" },
 )
 
 # Remove Windows Store apps first
