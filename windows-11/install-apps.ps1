@@ -33,7 +33,7 @@ $apps = @(
     #@{ id = "Foxit.PhantomPDF"; name = "Foxit PhantomPDF"; version = "13.1.7.23637" },
     #@{ id = "TechSmith.Snagit.2024"; name = "Snagit 2024" },
     #@{ id = "TechSmith.Camtasia"; name = "Camtasia 2024", version = "24.1.5.6542" },
-    @{ id = "Docker.DockerDesktop"; name = "Docker Desktop" },
+    #@{ id = "Docker.DockerDesktop"; name = "Docker Desktop" },
     @{ id = "Zoom.Zoom"; name = "Zoom" },
     #@{ id = "SublimeHQ.SublimeText.4"; name = "Sublime Text" },
     #@{ id = "SublimeHQ.SublimeMerge"; name = "Sublime Merge" },
