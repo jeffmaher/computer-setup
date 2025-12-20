@@ -1,5 +1,5 @@
 # To Run, issue this in an admin launched Power Shell terminal
-# PowerShell -ExecutionPolicy Bypass -File .\setup_apps.ps1
+# PowerShell -ExecutionPolicy Bypass -File .\install_apps.ps1
 
 # Windows Store apps to remove (using AppX commands)
 $storeAppsToRemove = @(
