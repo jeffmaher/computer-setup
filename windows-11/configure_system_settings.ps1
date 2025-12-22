@@ -16,11 +16,11 @@ Write-Host "System:" -ForegroundColor Cyan
 Write-Host "  - Do Not Disturb schedule (8 AM - 9 PM daily)" -ForegroundColor Gray
 Write-Host "  - Disable notifications on lock screen" -ForegroundColor Gray
 Write-Host "  - Disable Windows tips and suggestions" -ForegroundColor Gray
-Write-Host "  - Power: 5min screen/sleep timeout (AC/plugged in)" -ForegroundColor Gray
+Write-Host "  - Power: 5min screen/sleep timeout (AC/plugged in), password on wake" -ForegroundColor Gray
 Write-Host "  - Storage Sense: Run monthly, 30-day cleanup" -ForegroundColor Gray
 Write-Host "  - Snap Windows: Disable suggestions" -ForegroundColor Gray
 Write-Host "  - Alt+Tab: Hide tabs from apps" -ForegroundColor Gray
-Write-Host "  - File Explorer: Show extensions, enable run as different user" -ForegroundColor Gray
+Write-Host "  - File Explorer: Show extensions, enable run as different user, use tabs" -ForegroundColor Gray
 Write-Host "  - Set Windows Terminal as default" -ForegroundColor Gray
 Write-Host "  - Clipboard: Disable history, sync, and suggested actions" -ForegroundColor Gray
 Write-Host ""
@@ -151,7 +151,15 @@ try {
     $result2 = powercfg /change standby-timeout-ac 5 2>&1
     if ($LASTEXITCODE -ne 0) { throw "Failed to set sleep timeout: $result2" }
     
-    Write-Host "[OK] AC power: Screen off after 5min, Sleep after 5min" -ForegroundColor Green
+    # Require password on wake from sleep
+    $powerSettingsPath = "HKLM:\SOFTWARE\Policies\Microsoft\Power\PowerSettings\0e796bdb-100d-47d6-a2d5-f7d2daa51f51"
+    if (!(Test-Path $powerSettingsPath)) {
+        New-Item -Path $powerSettingsPath -Force | Out-Null
+    }
+    Set-ItemProperty -Path $powerSettingsPath -Name "DCSettingIndex" -Value 1 -Type DWord -Force -ErrorAction Stop
+    Set-ItemProperty -Path $powerSettingsPath -Name "ACSettingIndex" -Value 1 -Type DWord -Force -ErrorAction Stop
+    
+    Write-Host "[OK] AC power: Screen off after 5min, Sleep after 5min, Password required on wake" -ForegroundColor Green
 } catch {
     Write-Host "[FAILED] Could not configure power settings: $($_.Exception.Message)" -ForegroundColor Red
 }
@@ -201,7 +209,9 @@ Write-Host "Configuring File Explorer..." -ForegroundColor Cyan
 try {
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideFileExt" -Value 0 -Type DWord -Force -ErrorAction Stop
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "ShowRunasDifferentuserinStart" -Value 1 -Type DWord -Force -ErrorAction SilentlyContinue
-    Write-Host "[OK] File extensions visible, Run as different user enabled" -ForegroundColor Green
+    # Open folders in same window (uses tabs instead of new windows)
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "SeparateProcess" -Value 0 -Type DWord -Force -ErrorAction Stop
+    Write-Host "[OK] File extensions visible, Run as different user enabled, tabs enabled" -ForegroundColor Green
 } catch {
     Write-Host "[FAILED] Could not configure File Explorer options" -ForegroundColor Red
 }
