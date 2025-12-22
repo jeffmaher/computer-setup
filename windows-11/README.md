@@ -178,9 +178,8 @@ PowerShell -ExecutionPolicy Bypass -File .\windows-11\install_wsl.ps1
 1. **First run**: Enables WSL features → **Restart required**
 1. **After restart**: Open **PowerShell as Administrator** again and run the same command
 1. **Second run**: Installs Ubuntu
-1. Open **Windows Terminal** or search for **"Ubuntu"** in Start Menu
 1. Ubuntu will start and prompt you to create a username and password
-1. After setup, run these commands in the **Ubuntu terminal**:
+1. After setup, run these commands:
 
 ```bash
 # Update Ubuntu packages
@@ -222,17 +221,15 @@ PowerShell -ExecutionPolicy Bypass -File .\windows-11\install_apps_user.ps1
 
 **What to expect:**
 - Most apps install silently
-- Some apps (LibreOffice, VLC, Zoom, Docker) will show UAC prompts
-- Enter your admin password when prompted
-- Script continues automatically
+- Some apps will prompt for your password (note a blinking shield in the taskbar if it looks stuck)
 
 **Customization:**
 
 To add apps:
-1. Find the app ID at https://winstall.app/
+1. Find the app ID at https://winstall.app/ (or see some common apps commented out in `install_apps_user.ps1`)
 1. Add to the `$apps` array in `install_apps_user.ps1`:
    ```powershell
-   @{ id = "Notepad++.Notepad++"; name = "Notepad++" }
+   @{ id = "Mozilla.Firefox"; name = "Mozilla Firefox", tryMachineScope = $true }
    ```
 
 To remove apps: Comment out or delete the line
@@ -311,19 +308,19 @@ Docker Desktop lets you run containerized applications and development environme
 
 **Installation:**
 1. Go to [Docker Desktop download page](https://www.docker.com/products/docker-desktop/)
-2. Download the installer
-3. Run the installer
-4. When prompted, check **"Use WSL 2 instead of Hyper-V"**
-5. **Restart** your computer
-6. Agree to terms and conditions (or purchase if not eligible for free version)
+1. Download the installer
+1. Run the installer
+1. When prompted, check **"Use WSL 2 instead of Hyper-V"**
+1. **Restart** your computer
+1. Agree to terms and conditions (or purchase if not eligible for free version)
 
 **Configure Docker Desktop:**
 1. Open Docker Desktop
-2. Go to **Settings**
-3. Under **General**, uncheck:
+1. Go to **Settings**
+1. Under **General**, uncheck:
    - Start Docker Desktop when you sign in to your computer
    - Open Docker Dashboard when Docker Desktop starts
-4. Click **Apply & restart**
+1. Click **Apply & restart**
 
 ### Manual System Settings
 
@@ -352,6 +349,8 @@ Check the error message. Common issues:
 - Network connection problems
 - App doesn't support user-scope installation
 
+If this happens, just download and install the application manually from its website.
+
 ### WSL says "restart required"
 
 Run the script once, restart Windows, then run the script again.
@@ -360,20 +359,13 @@ Run the script once, restart Windows, then run the script again.
 
 The app doesn't support user-scope installation. The script automatically retries with system-wide installation and will show UAC prompt.
 
-### Widgets still appear on taskbar
-
-Run Windows Explorer restart:
-```powershell
-Stop-Process -Name explorer -Force
-```
-
 ## 📄 License
 
 MIT License - Feel free to use and modify
 
 ## 🙏 Contributing
 
-Issues and pull requests welcome! This is a personal setup script made public, so your mileage may vary.
+Issues and pull requests welcome! This is a personal setup script made public, so feel free to suggest your modifications if you think it will help lots of users.
 
 ## ✨ Credits
 
