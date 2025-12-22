@@ -32,8 +32,8 @@ if ($isAdmin) {
 }
 
 Write-Host "IMPORTANT: During installation, you may see UAC prompts for:" -ForegroundColor Yellow
-Write-Host "  - LibreOffice, VLC, Zoom, Docker Desktop" -ForegroundColor Gray
-Write-Host "  - Simply enter your admin password when prompted" -ForegroundColor Gray
+Write-Host "  - If the script stalls, look for a blinking shield on your task bar" -ForegroundColor Gray
+Write-Host "  - Click the shield and enter your admin password when prompted" -ForegroundColor Gray
 Write-Host "  - The script will continue automatically after each prompt" -ForegroundColor Gray
 Write-Host ""
 $confirm = Read-Host "Ready to begin? (y/n)"

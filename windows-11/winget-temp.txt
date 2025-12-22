@@ -1,4 +1,0 @@
-# SublimeHQ.SublimeMerge
-# SublimeHQ.SublimeText.4
-VideoLAN.VLC
-TechSmith.Camtasia --version 24.1.5.6542
