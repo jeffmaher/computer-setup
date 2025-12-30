@@ -15,13 +15,14 @@ Write-Host "This script will remove the following:" -ForegroundColor Yellow
 Write-Host ""
 Write-Host "Windows Store Apps:" -ForegroundColor Cyan
 Write-Host "  - Bing News" -ForegroundColor Gray
-Write-Host "  - Bing Search" -ForegroundColor Gray
 Write-Host "  - Bing Weather" -ForegroundColor Gray
 Write-Host "  - Microsoft To Do" -ForegroundColor Gray
 Write-Host "  - Microsoft Solitaire Collection" -ForegroundColor Gray
 Write-Host "  - Your Phone" -ForegroundColor Gray
 Write-Host "  - Sticky Notes" -ForegroundColor Gray
 Write-Host "  - Outlook for Windows" -ForegroundColor Gray
+Write-Host ""
+Write-Host "Note: Bing Search is kept (required for Start Menu)" -ForegroundColor Yellow
 Write-Host ""
 Write-Host "WinGet Bloatware:" -ForegroundColor Cyan
 Write-Host "  - Microsoft OneDrive" -ForegroundColor Gray
@@ -60,7 +61,7 @@ Write-Host ""
 # Windows Store apps to remove (using AppX commands)
 $storeAppsToRemove = @(
     "Microsoft.BingNews",
-    "Microsoft.BingSearch", 
+    # "Microsoft.BingSearch",  # DO NOT REMOVE - Required for Start Menu to function properly
     "Microsoft.BingWeather",
     "Microsoft.Todos",
     "Microsoft.MicrosoftSolitaireCollection",

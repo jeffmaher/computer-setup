@@ -31,8 +31,6 @@ Write-Host "Personalization:" -ForegroundColor Cyan
 Write-Host "  - Background: Solid black color" -ForegroundColor Gray
 Write-Host "  - Transparency effects: Disabled" -ForegroundColor Gray
 Write-Host "  - Lock screen: Disable fun facts and tips" -ForegroundColor Gray
-Write-Host "  - Start menu: More pins layout, disable recent items and recommendations" -ForegroundColor Gray
-Write-Host "  - Start folders: Enable Settings, File Explorer, Downloads, Personal" -ForegroundColor Gray
 Write-Host "  - Taskbar: Hide Search, disable Copilot, Task View, and Widgets" -ForegroundColor Gray
 Write-Host ""
 Write-Host "Apps:" -ForegroundColor Cyan
@@ -298,42 +296,6 @@ try {
     Write-Host "[OK] Lock screen tips and fun facts disabled" -ForegroundColor Green
 } catch {
     Write-Host "[FAILED] Could not configure lock screen" -ForegroundColor Red
-}
-
-# Start menu settings
-Write-Host "Configuring Start menu..." -ForegroundColor Cyan
-try {
-    # More pins layout
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_Layout" -Value 1 -Type DWord -Force -ErrorAction Stop
-    
-    # Disable recently added apps
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_TrackProgs" -Value 0 -Type DWord -Force -ErrorAction Stop
-    
-    # Disable recently opened items
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_TrackDocs" -Value 0 -Type DWord -Force -ErrorAction Stop
-    
-    # Disable recommendations
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_IrisRecommendations" -Value 0 -Type DWord -Force -ErrorAction Stop
-    
-    Write-Host "[OK] Start menu configured (more pins, no recent items, no recommendations)" -ForegroundColor Green
-} catch {
-    Write-Host "[FAILED] Could not configure Start menu" -ForegroundColor Red
-}
-
-# Start menu folders
-Write-Host "Enabling Start menu folders..." -ForegroundColor Cyan
-try {
-    $startFoldersPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Start"
-    if (!(Test-Path $startFoldersPath)) {
-        New-Item -Path $startFoldersPath -Force | Out-Null
-    }
-    
-    # Enable folders: Settings, File Explorer, Downloads, Personal folder
-    Set-ItemProperty -Path $startFoldersPath -Name "VisiblePlaces" -Value ([byte[]](0x86,0x08,0x73,0x85,0xad,0x1a,0xd4,0x11,0xbd,0xfd,0x00,0xc0,0x4f,0xa3,0x48,0x8a,0x42,0x88,0x2e,0x93,0xad,0x1a,0xd4,0x11,0x91,0x46,0x00,0xc0,0x4f,0xb9,0x60,0xf9,0x20,0x42,0x88,0x2e,0x93,0xad,0x1a,0xd4,0x11,0x91,0x46,0x00,0xc0,0x4f,0xb9,0x60,0xf9,0x59,0x03,0x1c,0x87,0x60,0x48,0x0f,0x81,0x87,0xc8,0x7c,0x56,0x46,0x83,0x4f,0x5e)) -Type Binary -Force -ErrorAction Stop
-    
-    Write-Host "[OK] Start menu folders enabled (Settings, File Explorer, Downloads, Personal)" -ForegroundColor Green
-} catch {
-    Write-Host "[FAILED] Could not configure Start menu folders" -ForegroundColor Red
 }
 
 # Taskbar settings
@@ -660,7 +622,7 @@ Write-Host "  [OK] File Explorer options" -ForegroundColor Gray
 Write-Host "  [OK] Clipboard settings" -ForegroundColor Gray
 Write-Host "  [OK] AutoPlay disabled" -ForegroundColor Gray
 Write-Host "  [OK] Personalization (background, transparency)" -ForegroundColor Gray
-Write-Host "  [OK] Start menu and taskbar" -ForegroundColor Gray
+Write-Host "  [OK] Taskbar configuration" -ForegroundColor Gray
 Write-Host "  [OK] App settings (sharing, archiving)" -ForegroundColor Gray
 Write-Host "  [OK] Time and language settings" -ForegroundColor Gray
 Write-Host "  [OK] Gaming settings (Game Bar, captures)" -ForegroundColor Gray
