@@ -1,8 +1,9 @@
 set -e
 
+# Installs applications for day-to-day use
 # Run after setup-system.sh and rebooting
-# Tested on Ubuntu Linux 24.04
-# USAGE: sh setup.sh 
+# Tested on Ubuntu Linux 24.04 and 25.10
+# USAGE: sh setup-apps.sh 
 
 # -- OUTPUT FUNCTIONS --
 status() {
@@ -37,20 +38,20 @@ sh install-sublime.sh
 status "Install Camera for testing webcam"
 sh install-camera.sh
 
+status "Install Camera Control for changing webcam settings"
+sh install-cameractrl.sh
+
 status "Install Signal Private Messenger"
 sh install-signal.sh
 
-status "Install Pinta for light image editings and screenshot markup"
+status "Install Pinta for light image editing and screenshot markup"
 sh install-pinta.sh
 
-status "Install Screen Capture software"
-sh install-screen-capture.sh
+# status "Install Screen Capture software"
+# sh install-screen-capture.sh
 
 status "Install Lossless Cut for video trimming"
 sh install-lossless-cut.sh
-
-status "Install Mozilla VPN"
-sh install-vpn.sh
 
 status "Install VLC Video Player"
 sh install-video-player.sh

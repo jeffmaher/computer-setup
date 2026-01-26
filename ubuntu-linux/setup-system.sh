@@ -20,15 +20,15 @@ sudo apt install gufw  -y
 
 # status "Attach to Ubuntu Pro"
 # sudo pro attach $1
-sudo pro disable livepatch
+# sudo pro disable livepatch
 
 status "Update system packages"
 sudo apt update
 sudo apt upgrade -y
 snap refresh
 
-status "Install DNS Over TLS and DNSSEC provider"
-sh config-dns.sh
+# status "Install DNS Over TLS and DNSSEC provider"
+# sh config-dns.sh
 
 status "Install Flatpak"
 sh install-flatpak.sh
@@ -39,8 +39,8 @@ sh config-screenshots.sh
 status "Install Git"
 sh install-git.sh
 
-status "Disable USB/XHCI wake from sleep"
-sh config-system-sleep.sh
+# status "Disable USB/XHCI wake from sleep"
+# sh config-system-sleep.sh
 
 status "Install curl"
 sudo apt install curl -y
