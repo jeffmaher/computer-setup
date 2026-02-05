@@ -1,11 +1,21 @@
-set -e
+#!/usr/bin/env bash
+set -euo pipefail
 
+sudo install -m 0755 -d /etc/apt/keyrings
 
-# --- Snap install ---
-# Has problems retaining login for some workspaces, switch to Debian install (which isn't scriptable since they don't have a link to the latest version)
-# sudo snap install slack
+curl -fsSL https://packagecloud.io/slacktechnologies/slack/gpgkey \
+  | gpg --dearmor \
+  | sudo tee /etc/apt/keyrings/slacktechnologies_slack-archive-keyring.gpg > /dev/null
 
-# --- Deb Install ---
-# Gets an old release, but new ones can be gotten from https://slack.com/downloads/instructions/linux
-# wget https://downloads.slack-edge.com/desktop-releases/linux/x64/4.45.69/slack-desktop-4.45.69-amd64.deb -O /var/tmp/slack.deb
-# sudo apt install /var/tmp/slack.deb -y
+sudo tee /etc/apt/sources.list.d/slack.sources > /dev/null <<'EOF'
+Types: deb
+URIs: https://packagecloud.io/slacktechnologies/slack/debian/
+Suites: jessie
+Components: main
+Architectures: amd64
+Signed-By: /etc/apt/keyrings/slacktechnologies_slack-archive-keyring.gpg
+EOF
+
+sudo apt update
+sudo apt install -y slack-desktop
+
