@@ -4,9 +4,9 @@ set -e
 
 DOWNLOAD_LOCATION=/var/tmp/protonvpn-stable-release_1.0.8_all.deb
 wget https://repo.protonvpn.com/debian/dists/stable/main/binary-all/protonvpn-stable-release_1.0.8_all.deb -O $DOWNLOAD_LOCATION
-sudo dpkg -i ./protonvpn-stable-release_1.0.8_all.deb && sudo apt update
-sudo apt install proton-vpn-gnome-desktop
-sudo apt install gnome-shell-extension-appindicator
+sudo dpkg -i $DOWNLOAD_LOCATION && sudo apt update
+sudo apt install proton-vpn-gnome-desktop -y
+sudo apt install gnome-shell-extension-appindicator -y
 
 
 # Removal instructions
