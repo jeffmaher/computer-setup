@@ -139,30 +139,35 @@ echo "=== CURRENT CONNECTION ==="
 echo
 IFACE="wlp1s0"
 if ip link show "$IFACE" &>/dev/null; then
-    SSID=$(iwgetid -r 2>/dev/null || echo "Not connected")
-    FREQ=$(iwgetid -f 2>/dev/null | grep -oP "Frequency:\K[0-9.]+" || echo "Unknown")
+    SSID=$(iwgetid -r 2>/dev/null)
+    FREQ=$(iwgetid -f 2>/dev/null | grep -oP "Frequency:\K[0-9.]+")
     SIGNAL=$(iwconfig "$IFACE" 2>/dev/null | grep -oP "Signal level=\K-?[0-9]+")
+    AP_MAC=$(iwgetid -a 2>/dev/null | grep -oP "Access Point: \K[A-F0-9:]+")
     
     echo "  Interface: $IFACE"
-    echo "  SSID: $SSID"
-    echo "  Frequency: $FREQ GHz"
-    echo "  Signal: $SIGNAL dBm"
     
-    # Determine band from frequency
-    if [ -n "$FREQ" ]; then
-        FREQ_INT=$(echo "$FREQ" | cut -d. -f1)
-        if [ "$FREQ_INT" -ge 5900 ]; then
-            echo "  Band: 6 GHz"
-        elif [ "$FREQ_INT" -ge 5100 ]; then
-            echo "  Band: 5 GHz"
-        elif [ "$FREQ_INT" -ge 2400 ]; then
-            echo "  Band: 2.4 GHz"
+    if [ -z "$SSID" ]; then
+        echo "  Status: Not connected"
+    else
+        echo "  SSID: $SSID"
+        echo "  Frequency: ${FREQ:-Unknown} GHz"
+        echo "  Signal: ${SIGNAL:-Unknown} dBm"
+        echo "  AP MAC: ${AP_MAC:-Unknown}"
+        
+        # Determine band from frequency
+        if [ -n "$FREQ" ]; then
+            FREQ_INT=$(echo "$FREQ" | cut -d. -f1)
+            if [[ "$FREQ_INT" =~ ^[0-9]+$ ]]; then
+                if [ "$FREQ_INT" -ge 5900 ]; then
+                    echo "  Band: 6 GHz"
+                elif [ "$FREQ_INT" -ge 5100 ]; then
+                    echo "  Band: 5 GHz"
+                elif [ "$FREQ_INT" -ge 2400 ]; then
+                    echo "  Band: 2.4 GHz"
+                fi
+            fi
         fi
     fi
-    
-    # Get current AP MAC
-    AP_MAC=$(iwgetid -a 2>/dev/null | grep -oP "Access Point: \K[A-F0-9:]+")
-    echo "  AP MAC: $AP_MAC"
 fi
 echo
 
