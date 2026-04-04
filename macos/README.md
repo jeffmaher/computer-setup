@@ -8,15 +8,6 @@ This controls what your computer shows up as on networks and Bluetooth.
 
 Go to Settings > General > About and change the name of your computer. Then, restart.
 
-# Foundational Apps
-
-Install third-party tools that you use to do basic things:
-
-- Web browsers
-- Password Manager
-- Storage apps
-- Device controllers (like for keyboards, cameras, etc.)
-
 # Settings
 
 Many of the settings below can be applied automatically by running `setup-macos-defaults.zsh`. Close System Settings first, then:
@@ -259,7 +250,16 @@ In the shortcuts:
 - Tracking speed: 5
 - Scrolling speed: 6
 
-## Setup Spaces for Work and Personal
+# Foundational Apps
+
+Install third-party tools that you use to do basic things:
+
+- Web browsers
+- Password Manager
+- Storage apps
+- Device controllers (like for keyboards, cameras, etc.)
+
+# Setup Spaces for Work and Personal
 
 1. Add all apps you use frequently to the dock
 1. Create two Spaces (one for work and one for personal)
