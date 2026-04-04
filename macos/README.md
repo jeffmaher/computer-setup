@@ -1,6 +1,6 @@
 # First Time Setup
 
-Get through all the setup screens with the defaults, skipping things that don’t need to be setup right now.
+Get through all the setup screens, entering essentials (user account, Wi-Fi) and skipping optional steps (Apple Account, Touch ID, Apple Intelligence, Siri) since they're configured later in this guide.
 
 # Name your computer
 
@@ -13,7 +13,7 @@ Go to Settings > General > About and change the name of your computer. Then, res
 Install third-party tools that you use to do basic things:
 
 - Web browsers
-- Password Manager
+- Password manager
 - Storage apps
 - Device controllers (like for keyboards, cameras, etc.)
 
@@ -25,7 +25,6 @@ Install third-party tools that you use to do basic things:
 - Media & Purchases
 	- Use Touch ID for Purchases: On
 
-
 ## Wifi
 
 If you're using Wifi, add the networks you use regularly. If you have a hotspot (like with your phone), go to the settings for that connection and enable "Low Power Mode" so that it doesn't do big things like download updates while you're using it.
@@ -36,7 +35,7 @@ Pair any devices you want paired.
 
 ## Network
 
-- Firewall: On 
+- Firewall: On
 
 ## General
 
@@ -94,7 +93,7 @@ Pair any devices you want paired.
 ## Spotlight
 
 - Show related content: Off
-- Help Apple Improve Searches: OFf
+- Help Apple Improve Searches: Off
 - Results from Apps: turn Off all except:
 	- Calculator
 	- Contacts
@@ -112,7 +111,6 @@ Pair any devices you want paired.
 - Choose your external devices for Output and Input, both when plugged and unplugged from your dock/monitor
 - Play sound on startup: Off
 - Alert sound: Funky
-- Play sound on startup: Off
 - Play feedback when volume is changed: On
 
 ## Focus
@@ -163,6 +161,7 @@ Add your fingerprints
 		- Siri
 		- Shortcuts
 - Advanced Data Protection: On
+	1. Set up a recovery method (recovery contact or recovery key) first
 	1. Enter your recovery code
 
 ## Mouse
@@ -208,22 +207,22 @@ Under Settings:
 - Advanced
 	- Show all filename extensions: On
 	- Show warning before removing from iCloud Drive: Off
-	- Remove items rom the Trash after 30 days: On
+	- Remove items from the Trash after 30 days: On
 	- When performing a search: Search the current folder
 
 # Setup Spaces for Work and Personal
 
 1. Add all apps you use frequently to the dock
 1. Create two spaces (one for work and one for personal)
-1. Alternative Click on each dock icon, and choose which workspace you want each to appear
-1. Alternative Click the desktop, choose Change Wallpaper
+1. Secondary click (or Ctrl+click) on each dock icon, and choose which workspace you want each to appear
+1. Secondary click (or Ctrl+click) the desktop, choose Change Wallpaper
 	1. Turn off "Show on all Spaces"
 	1. Set a colour or wallpaper
 	1. Do this for your other space with a different colour or wallpaper
 
 # Setup SSH and GitHub
 
-In this directory, there is a setup-ssh-and-git.sh script. Run that to setup work and personal SSH keys and GitHub configurations.
+In this directory, there is a `setup-ssh-and-git-macos.zsh` script. Run that to setup work and personal SSH keys and GitHub configurations.
 
 # Safari
 
@@ -245,18 +244,10 @@ Within Settings:
 		- Enable Quick Website Search: Unchecked
 		- Preload Top Hit in the background: Unchecked
 		- Show Start Page: Unchecked
-	- Security
-		- Non-secure site connections
-			- Warn before connecting to a website over HTTP: Checked
-	- Advanced
-		- Show features for web developers: Checked
+- Security
+	- Non-secure site connections
+		- Warn before connecting to a website over HTTP: Checked
+- Advanced
+	- Show features for web developers: Checked
 
 Then install your password manager's extension.
-		
-	
-
-
-
-
-
-
