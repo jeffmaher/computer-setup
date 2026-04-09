@@ -45,6 +45,7 @@ echo "    - Disable screensaver (set to Never)"
 echo ""
 echo "  Sound"
 echo "    - Disable startup sound (requires admin password)"
+echo "    - Disable user interface sound effects (trash, screenshots, etc.)"
 echo "    - Enable volume change feedback sound"
 echo ""
 echo "  Lock Screen"
@@ -62,6 +63,9 @@ echo "    - Disable suggestions and related content"
 echo ""
 echo "  Firewall"
 echo "    - Enable firewall (requires admin password)"
+echo ""
+echo "  Battery"
+echo "    - Disable wake for network access"
 echo ""
 echo "  Safari"
 echo "    - Set new windows and tabs to Empty Page"
@@ -83,6 +87,16 @@ read "CONFIRM?Proceed with these changes? (y/n): "
 if [[ ! "$CONFIRM" =~ ^[Yy]$ ]]; then
     echo "Cancelled."
     exit 0
+fi
+
+echo ""
+
+# Request admin privileges upfront so sudo commands later don't interrupt
+echo "Some settings require admin privileges."
+sudo -v
+if [[ $? -ne 0 ]]; then
+    echo "Admin privileges are required. Exiting."
+    exit 1
 fi
 
 echo ""
@@ -186,6 +200,9 @@ echo "Sound:"
 sudo nvram StartupMute=%01 2>/dev/null
 echo "  - Disabled startup sound"
 
+defaults write com.apple.systemsound "com.apple.sound.uiaudio.enabled" -int 0
+echo "  - Disabled user interface sound effects"
+
 defaults write NSGlobalDomain com.apple.sound.beep.feedback -bool true
 echo "  - Enabled volume change feedback sound"
 
@@ -245,6 +262,16 @@ echo "Firewall:"
 
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on 2>/dev/null
 echo "  - Enabled firewall"
+
+echo ""
+
+# ==========================================================================
+# Battery
+# ==========================================================================
+echo "Battery:"
+
+sudo pmset -a womp 0
+echo "  - Disabled wake for network access"
 
 echo ""
 

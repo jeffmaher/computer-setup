@@ -26,6 +26,10 @@ The script will show you everything it plans to change and ask for confirmation 
 
 - Firewall: On
 
+### Battery
+
+- Wake for network access: Never
+
 ### General
 
 - Autofill & Passkeys
@@ -66,6 +70,7 @@ The script will show you everything it plans to change and ask for confirmation 
 ### Sound
 
 - Play sound on startup: Off
+- Play user interface sound effects: Off
 - Play feedback when volume is changed: On
 
 ### Lock Screen
@@ -233,17 +238,17 @@ In the shortcuts:
 
 - Windows
 	- General: 
-		- Fill: CTRL + OPTION + M
+		- Fill: CTRL + OPTION + CMD + M
 	- Halves:
-		- Tile Left Half: CTRL + OPTION + LEFT ARROW
-		- Tile Right Half: CTRL + OPTION + RIGHT ARROW
+		- Tile Left Half: CTRL + OPTION + CMD + LEFT ARROW
+		- Tile Right Half: CTRL + OPTION + CMD + RIGHT ARROW
 		- Tile Top Half: (none)
 		- Tile Bottom Half: (none)
 	- Quarters
-		- Tile Top Left Quarter: CTRL + OPTION + U
-		- Tile Top Right Quarter: CTRL + OPTION + I
-		- Tile Bottom Left Quarter: CTRL + OPTION + J
-		- Tile Bottom Right Quarter: CTRL + OPTION + K
+		- Tile Top Left Quarter: CTRL + OPTION + CMD + U
+		- Tile Top Right Quarter: CTRL + OPTION + CMD + I
+		- Tile Bottom Left Quarter: CTRL + OPTION + CMD + J
+		- Tile Bottom Right Quarter: CTRL + OPTION + CMD + K
 
 ### Mouse
 
