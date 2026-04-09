@@ -67,6 +67,10 @@ The script will show you everything it plans to change and ask for confirmation 
 
 - Start screen saver: Never
 
+### Screenshots
+
+- Save location: ~/Pictures/Screenshots
+
 ### Sound
 
 - Play sound on startup: Off

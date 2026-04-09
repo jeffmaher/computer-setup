@@ -43,6 +43,9 @@ echo ""
 echo "  Screensaver"
 echo "    - Disable screensaver (set to Never)"
 echo ""
+echo "  Screenshots"
+echo "    - Save screenshots and screen recordings to ~/Pictures/Screenshots"
+echo ""
 echo "  Sound"
 echo "    - Disable startup sound (requires admin password)"
 echo "    - Disable user interface sound effects (trash, screenshots, etc.)"
@@ -189,6 +192,17 @@ echo "Screensaver:"
 
 defaults -currentHost write com.apple.screensaver idleTime -int 0
 echo "  - Disabled screensaver (set to Never)"
+
+echo ""
+
+# ==========================================================================
+# Screenshots
+# ==========================================================================
+echo "Screenshots:"
+
+mkdir -p "$HOME/Pictures/Screenshots"
+defaults write com.apple.screencapture location -string "$HOME/Pictures/Screenshots"
+echo "  - Save location set to ~/Pictures/Screenshots"
 
 echo ""
 
