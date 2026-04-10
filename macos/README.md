@@ -238,21 +238,9 @@ Add your fingerprints
 
 ### Keyboard
 
-In the shortcuts:
-
-- Windows
-	- General: 
-		- Fill: CTRL + OPTION + CMD + M
-	- Halves:
-		- Tile Left Half: CTRL + OPTION + CMD + LEFT ARROW
-		- Tile Right Half: CTRL + OPTION + CMD + RIGHT ARROW
-		- Tile Top Half: (none)
-		- Tile Bottom Half: (none)
-	- Quarters
-		- Tile Top Left Quarter: CTRL + OPTION + CMD + U
-		- Tile Top Right Quarter: CTRL + OPTION + CMD + I
-		- Tile Bottom Left Quarter: CTRL + OPTION + CMD + J
-		- Tile Bottom Right Quarter: CTRL + OPTION + CMD + K
+- Disable all native window tiling shortcuts:
+	- System Settings > Keyboard > Keyboard Shortcuts > Windows
+	- Uncheck everything under General, Halves, and Quarters
 
 ### Mouse
 
@@ -267,6 +255,22 @@ Install third-party tools that you use to do basic things:
 - Password Manager
 - Storage apps
 - Device controllers (like for keyboards, cameras, etc.)
+
+# Window Tiling (Rectangle)
+
+Install [Rectangle](https://rectangleapp.com/) for window tiling. It intercepts shortcuts at a level that prevents apps from overriding them.
+
+Shortcuts:
+
+- Fill: CTRL + OPTION + M
+- Left Half: CTRL + OPTION + LEFT ARROW
+- Right Half: CTRL + OPTION + RIGHT ARROW
+- Top Half: CTRL + OPTION + UP ARROW
+- Bottom Half: CTRL + OPTION + DOWN ARROW
+- Top Left Quarter: CTRL + OPTION + U
+- Top Right Quarter: CTRL + OPTION + I
+- Bottom Left Quarter: CTRL + OPTION + J
+- Bottom Right Quarter: CTRL + OPTION + K
 
 # Setup Spaces for Work and Personal
 
