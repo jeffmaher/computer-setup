@@ -39,6 +39,7 @@ echo "    - Hide suggested and recent apps in Dock"
 echo "    - Disable widgets on Desktop and Stage Manager"
 echo "    - Prefer tabs when opening documents"
 echo "    - Group windows by application in Mission Control"
+echo "    - Disable Quick Note hot corner (bottom-right)"
 echo ""
 echo "  Screensaver"
 echo "    - Disable screensaver (set to Never)"
@@ -182,6 +183,9 @@ echo "  - Set tab preference to Always"
 
 defaults write com.apple.dock expose-group-apps -bool true
 echo "  - Enabled group windows by application"
+
+defaults write com.apple.dock wvous-br-corner -int 0
+echo "  - Disabled Quick Note hot corner (bottom-right)"
 
 echo ""
 

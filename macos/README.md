@@ -62,6 +62,7 @@ The script will show you everything it plans to change and ask for confirmation 
 - iPhone Widgets: Off
 - Prefer tabs when opening documents: Always
 - Group windows by application: On
+- Hot Corners > Bottom Right: Off (disables Quick Note)
 
 ### Screensaver
 
