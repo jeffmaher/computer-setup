@@ -85,6 +85,9 @@ echo ""
 echo "  Mouse"
 echo "    - Disable natural scrolling"
 echo ""
+echo "  Shell"
+echo "    - Add tab completion initialization to ~/.zshrc"
+echo ""
 echo "=========================================="
 read "CONFIRM?Proceed with these changes? (y/n): "
 
@@ -346,6 +349,25 @@ echo "Mouse:"
 
 defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
 echo "  - Disabled natural scrolling"
+
+echo ""
+
+# ==========================================================================
+# Shell (zshrc)
+# ==========================================================================
+echo "Shell:"
+
+if ! grep -q "autoload -Uz compinit" "$HOME/.zshrc" 2>/dev/null; then
+    cat >> "$HOME/.zshrc" << 'EOF'
+
+# Tab completion initialization
+autoload -Uz compinit
+compinit
+EOF
+    echo "  - Added tab completion initialization to ~/.zshrc"
+else
+    echo "  - Tab completion initialization already exists in ~/.zshrc"
+fi
 
 echo ""
 
