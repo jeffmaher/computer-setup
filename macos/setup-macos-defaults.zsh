@@ -40,6 +40,7 @@ echo "    - Disable widgets on Desktop and Stage Manager"
 echo "    - Prefer tabs when opening documents"
 echo "    - Group windows by application in Mission Control"
 echo "    - Disable Quick Note hot corner (bottom-right)"
+echo "    - Disable separate Spaces per display (all monitors switch together)"
 echo ""
 echo "  Screensaver"
 echo "    - Disable screensaver (set to Never)"
@@ -189,6 +190,9 @@ echo "  - Enabled group windows by application"
 
 defaults write com.apple.dock wvous-br-corner -int 0
 echo "  - Disabled Quick Note hot corner (bottom-right)"
+
+defaults write com.apple.spaces spans-displays -bool true
+echo "  - Disabled separate Spaces per display (all monitors switch together)"
 
 echo ""
 

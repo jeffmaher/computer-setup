@@ -63,6 +63,7 @@ The script will show you everything it plans to change and ask for confirmation 
 - Prefer tabs when opening documents: Always
 - Group windows by application: On
 - Hot Corners > Bottom Right: Off (disables Quick Note)
+- Displays have separate Spaces: Off (all monitors switch together, requires logout)
 
 ### Screensaver
 
@@ -118,6 +119,7 @@ The script will show you everything it plans to change and ask for confirmation 
 	- Open "safe" files after downloading: Unchecked
 - Tabs
 	- Tab layout: Compact
+	- Show color in tab bar: Unchecked *(manual — not automatable)*
 - Autofill: Uncheck all
 - Search
 	- Search engine: DuckDuckGo
@@ -136,6 +138,10 @@ The script will show you everything it plans to change and ask for confirmation 
 ### Mouse
 
 - Natural scrolling: Off
+
+### Shell
+
+- Tab completion initialization added to ~/.zshrc (enables completions for tools like uv, git, etc.)
 
 ## Manually Configured
 
@@ -166,6 +172,7 @@ Pair any devices you want paired.
 
 ### Displays
 
+- True Tone: Off
 - If you're using multiple displays, arrange these accordingly using "Arrange" and, if on a laptop, set "Use as" to "Main Display"
 - Advanced
 	- Turn  off (if not using):
