@@ -1,13 +1,13 @@
 # Windows 11 Setup Automation
 
-Automated scripts to set up a fresh Windows 11 installation with privacy-focused settings, minimal bloatware, and essential development tools. This was last tested with Windows 11 25H2.
+Automated scripts to set up a fresh Windows 11 installation with privacy-focused settings, minimal bloatware, and essential development tools.
 
 ## 📋 What This Does
 
 This repository contains PowerShell scripts that automate ~80-90% of a fresh Windows 11 setup:
 
 - ✅ **Remove bloatware** - Bing apps, OneDrive, Teams, etc.
-- ✅ **Install applications** - Software for common tasks
+- ✅ **Install applications** - Browsers, dev tools, productivity apps
 - ✅ **Configure privacy** - Disable telemetry, web search, widgets
 - ✅ **Set up WSL** - Ubuntu Linux for development
 - ✅ **Optimize system settings** - Power, notifications, File Explorer
@@ -17,15 +17,26 @@ This repository contains PowerShell scripts that automate ~80-90% of a fresh Win
 
 ### Applications (via install_apps_user.ps1)
 
+**Browsers:**
+- Mozilla Firefox
+- Google Chrome
+
 **Development:**
 - VS Code
+- Docker Desktop
 - Windows Subsystem for Linux (Ubuntu)
 
 **Productivity:**
 - LibreOffice
+- 1Password
+- Todoist
+- Signal (+ Beta)
+- Slack
+- Zoom
 
 **Utilities:**
 - VLC Media Player
+- Figma
 - Microsoft PowerToys
 
 ### What Gets Removed (via remove_bloatware.ps1)
@@ -50,14 +61,14 @@ This repository contains PowerShell scripts that automate ~80-90% of a fresh Win
 ### Download This Repository
 
 1. Go to https://github.com/jeffmaher/computer-setup
-1. Click **Code** → **Download ZIP**
-1. Extract the ZIP file (e.g., to `C:\temp\computer-setup`)
-1. Open PowerShell and navigate to the extracted folder:
+2. Click **Code** → **Download ZIP**
+3. Extract the ZIP file (e.g., to `C:\temp\computer-setup`)
+4. Open PowerShell and navigate to the extracted folder:
    ```powershell
    cd C:\temp\computer-setup\computer-setup-main
    ```
 
-### Fresh Windows Install
+### Step 0: Fresh Windows Install
 
 Before running any scripts, complete the initial Windows setup:
 
@@ -75,21 +86,21 @@ Before running any scripts, complete the initial Windows setup:
 
 **Upgrade to Windows 11 Pro:**
 1. Search Start Menu for "activation settings"
-1. Update to Pro from Microsoft Store
-1. Restart
+2. Update to Pro from Microsoft Store
+3. Restart
 
-### Configure UAC (Admin Password Required)
+### Step 1: Configure UAC (Admin Password Required)
 
 **Requires**: Administrator  
 **Time**: <1 minute
 
 **How to run:**
 1. Click **Start Menu**
-1. Type **"PowerShell"**
-1. Right-click **Windows PowerShell**
-1. Select **"Run as Administrator"**
-1. Click **Yes** on the UAC prompt
-1. Run the command below:
+2. Type **"PowerShell"**
+3. Right-click **Windows PowerShell**
+4. Select **"Run as Administrator"**
+5. Click **Yes** on the UAC prompt
+6. Run the command below:
 
 Ensures Windows always asks for your admin password before making system changes.
 
@@ -102,7 +113,7 @@ PowerShell -ExecutionPolicy Bypass -File .\windows-11\configure_uac.ps1
 - Uses secure desktop (prevents spoofing)
 - Applies to both admin and standard users
 
-### Disable OneDrive (If Not Using)
+### Step 2: Disable OneDrive (If Not Using)
 
 **Requires**: No terminal needed  
 **Time**: 2 minutes
@@ -110,18 +121,18 @@ PowerShell -ExecutionPolicy Bypass -File .\windows-11\configure_uac.ps1
 If you don't use OneDrive/Microsoft 365, disable it before removing bloatware:
 
 1. System tray → OneDrive → Settings
-1. **Sync & Backup**: Turn off all folder backups
-1. **Account**: Unlink this PC
-1. System tray → OneDrive → Quit OneDrive
+2. **Sync & Backup**: Turn off all folder backups
+3. **Account**: Unlink this PC
+4. System tray → OneDrive → Quit OneDrive
 
-### Remove Bloatware
+### Step 3: Remove Bloatware
 
 **Requires**: Administrator  
 **Time**: 2-5 minutes
 
 **How to run:**
 1. Open **PowerShell as Administrator** (same as Step 1)
-1. Run the command below:
+2. Run the command below:
 
 Removes pre-installed Windows apps you don't need.
 
@@ -138,14 +149,14 @@ PowerShell -ExecutionPolicy Bypass -File .\windows-11\remove_bloatware.ps1
 **Customization:**
 Edit `remove_bloatware.ps1` to add/remove apps from the removal list.
 
-### Disable Web Search
+### Step 4: Disable Web Search
 
 **Requires**: Administrator  
 **Time**: <1 minute
 
 **How to run:**
 1. Open **PowerShell as Administrator** (same as Step 1)
-1. Run the command below:
+2. Run the command below:
 
 Disables Bing web results in Start Menu search (local apps/files only).
 
@@ -159,14 +170,14 @@ PowerShell -ExecutionPolicy Bypass -File .\windows-11\disable_web_search.ps1
 - Better privacy (no search queries sent to Microsoft)
 - Reduced network usage
 
-### Install WSL (Windows Subsystem for Linux)
+### Step 5: Install WSL (Windows Subsystem for Linux)
 
 **Requires**: Administrator  
 **Time**: 5 minutes (run twice)
 
 **How to run:**
 1. Open **PowerShell as Administrator** (same as Step 1)
-1. Run the command below:
+2. Run the command below:
 
 Installs Ubuntu Linux for development.
 
@@ -176,10 +187,14 @@ PowerShell -ExecutionPolicy Bypass -File .\windows-11\install_wsl.ps1
 
 **⚠️ Important**: Run this script **twice**:
 1. **First run**: Enables WSL features → **Restart required**
-1. **After restart**: Open **PowerShell as Administrator** again and run the same command
-1. **Second run**: Installs Ubuntu
-1. Ubuntu will start and prompt you to create a username and password
-1. After setup, run these commands:
+2. **After restart**: Open **PowerShell as Administrator** again and run the same command
+3. **Second run**: Installs Ubuntu
+
+**After installation:**
+
+1. Open **Windows Terminal** or search for **"Ubuntu"** in Start Menu
+2. Ubuntu will start and prompt you to create a username and password
+3. After setup, run these commands in the **Ubuntu terminal**:
 
 ```bash
 # Update Ubuntu packages
@@ -190,12 +205,12 @@ exit
 
 **Set Ubuntu as default terminal** (optional):
 1. Open Windows Terminal
-1. Click **▼** next to **+**
-1. Go to **Settings**
-1. Change **Default profile** to **Ubuntu**
-1. **Save**
+2. Click **▼** next to **+**
+3. Go to **Settings**
+4. Change **Default profile** to **Ubuntu**
+5. **Save**
 
-### Install Applications
+### Step 6: Install Applications
 
 **Requires**: Standard user (NOT admin)  
 **Time**: 20-30 minutes
@@ -205,11 +220,11 @@ exit
    - Click **Start Menu**
    - Type **"PowerShell"**
    - Click **Windows PowerShell** (do NOT right-click or run as admin)
-1. Navigate to the repository folder if not already there:
+2. Navigate to the repository folder if not already there:
    ```powershell
    cd C:\temp\computer-setup\computer-setup-main
    ```
-1. Run the command below:
+3. Run the command below:
 
 Installs all your apps in one go.
 
@@ -221,27 +236,29 @@ PowerShell -ExecutionPolicy Bypass -File .\windows-11\install_apps_user.ps1
 
 **What to expect:**
 - Most apps install silently
-- Some apps will prompt for your password (note a blinking shield in the taskbar if it looks stuck)
+- Some apps (LibreOffice, VLC, Zoom, Docker) will show UAC prompts
+- Enter your admin password when prompted
+- Script continues automatically
 
 **Customization:**
 
 To add apps:
-1. Find the app ID at https://winstall.app/ (or see some common apps commented out in `install_apps_user.ps1`)
-1. Add to the `$apps` array in `install_apps_user.ps1`:
+1. Find the app ID at https://winstall.app/
+2. Add to the `$apps` array in `install_apps_user.ps1`:
    ```powershell
-   @{ id = "Mozilla.Firefox"; name = "Mozilla Firefox", tryMachineScope = $true }
+   @{ id = "Notepad++.Notepad++"; name = "Notepad++" }
    ```
 
 To remove apps: Comment out or delete the line
 
-### Configure System Settings
+### Step 7: Configure System Settings
 
 **Requires**: Administrator  
 **Time**: 1-2 minutes
 
 **How to run:**
 1. Open **PowerShell as Administrator** (same as Step 1)
-1. Run the command below:
+2. Run the command below:
 
 Optimizes Windows settings for privacy, performance, and usability.
 
@@ -268,38 +285,38 @@ Edit `configure_system_settings.ps1` to change:
 
 Some things still require manual setup:
 
-### Configure BitLocker Encryption
+### 1. Configure BitLocker Encryption
 
 1. Search Start Menu for "manage bitlocker"
-1. Turn on BitLocker
-1. Print recovery key (save to cloud backup, not locally)
-1. After encrypting, visit: https://account.microsoft.com/devices/recoverykey
-1. **Delete the key** (removes it from Microsoft's servers)
+2. Turn on BitLocker
+3. Print recovery key (save to cloud backup, not locally)
+4. After encrypting, visit: https://account.microsoft.com/devices/recoverykey
+5. **Delete the key** (removes it from Microsoft's servers)
 
-### Install Hardware Drivers (If Needed)
+### 2. Install Hardware Drivers (If Needed)
 
 Windows auto-installs most drivers, but you may need:
 - [Logi Options+](https://www.logitech.com/en-ca/software/logi-options-plus.html) - Logitech devices
 - [Nvidia App](https://www.nvidia.com/en-us/software/nvidia-app/) - NVIDIA graphics cards
 
-### Configure LibreOffice
+### 3. Configure LibreOffice
 
 1. Set default file types (Writer→DOCX, Calc→XLSX, Impress→PPTX)
-1. Enable auto-save
-1. Disable recovery files
+2. Enable auto-save
+3. Disable recovery files
 
-### Set Up SSH and GitHub
+### 4. Set Up SSH and GitHub
 
 **Terminal**: Ubuntu/WSL terminal
 
 1. Open **Ubuntu** from Start Menu or open **Windows Terminal** and select **Ubuntu** profile
-1. Run:
+2. Run:
 
 ```bash
 bash ./ubuntu-linux/setup-ssh-and-git.sh
 ```
 
-### Install Docker Desktop
+### 5. Install Docker Desktop
 
 **Requires**: Manual installation  
 **Time**: 10 minutes
@@ -308,21 +325,21 @@ Docker Desktop lets you run containerized applications and development environme
 
 **Installation:**
 1. Go to [Docker Desktop download page](https://www.docker.com/products/docker-desktop/)
-1. Download the installer
-1. Run the installer
-1. When prompted, check **"Use WSL 2 instead of Hyper-V"**
-1. **Restart** your computer
-1. Agree to terms and conditions (or purchase if not eligible for free version)
+2. Download the installer
+3. Run the installer
+4. When prompted, check **"Use WSL 2 instead of Hyper-V"**
+5. **Restart** your computer
+6. Agree to terms and conditions (or purchase if not eligible for free version)
 
 **Configure Docker Desktop:**
 1. Open Docker Desktop
-1. Go to **Settings**
-1. Under **General**, uncheck:
+2. Go to **Settings**
+3. Under **General**, uncheck:
    - Start Docker Desktop when you sign in to your computer
    - Open Docker Dashboard when Docker Desktop starts
-1. Click **Apply & restart**
+4. Click **Apply & restart**
 
-### Manual System Settings
+### 6. Manual System Settings
 
 Things the scripts can't automate:
 - Language packs (Settings → Time & language → Language)
@@ -330,14 +347,45 @@ Things the scripts can't automate:
 - Display configuration
 - Default audio input/output devices
 
-### Bluetooth Device Name (Optional)
+### 7. Bluetooth Device Name (Optional)
 
 To make devices pronounce your computer name instead of spelling it:
 
 1. Start Menu → Device Manager
-1. **Bluetooth** → Right-click your device
-1. **Advanced** tab → Change name to lowercase
-1. Toggle Bluetooth off/on to apply
+2. **Bluetooth** → Right-click your device
+3. **Advanced** tab → Change name to lowercase
+4. Toggle Bluetooth off/on to apply
+
+### 8. Clear Microsoft Account Data
+
+Remove activity data Microsoft has stored in the cloud for your account. Sign in with your Microsoft account at each link, then use the **Clear** option in that section:
+
+1. **Clear app and service data**: https://account.microsoft.com/privacy/apps-services
+2. **Clear search history**: https://account.microsoft.com/privacy/web-search
+3. **Clear browsing history**: https://account.microsoft.com/privacy/web-search
+
+> **Note**: Browsing history and search history both live under the same `web-search` page on Microsoft's current privacy dashboard (browsing activity appears under "Recent activity"), so links 2 and 3 point to the same place. Clear each section shown there.
+
+**Keep it cleared automatically (30-day retention):**
+
+There's no per-section "clear every 30 days" dropdown to set. Instead, once you clear a category, Microsoft automatically deletes previously synced activity data within 30 days of its last sync to the cloud — this default applies to all three categories above. To make sure data doesn't keep re-accumulating (and that the 30-day auto-deletion keeps things minimal going forward), turn off activity-history collection:
+
+1. On Windows: **Settings** → **Privacy & security** → **Activity history** → turn **off** "Store my activity history on this device" and, if shown, "Send my activity history to Microsoft"
+2. On the dashboard: under each category (apps/services, search, browsing), leave the personalization/sync options off so new activity isn't stored to the cloud
+
+With collection off and the categories cleared, Microsoft's 30-day auto-deletion removes any remaining synced data and nothing new is added.
+
+### 9. Convert Your Account to a Local Account (Optional)
+
+If you'd rather not sign in to Windows with a Microsoft account, convert your **current** account to a local one. This keeps your existing profile, files, apps, and settings — it only detaches the Microsoft account and replaces the sign-in with a local username and password.
+
+1. **Settings** → **Accounts** → **Your info**
+2. Under **Account settings**, select **Sign in with a local account instead**
+3. Confirm your current Microsoft account password when prompted
+4. Set a local username, password, and password hint for the same profile
+5. Sign out and back in using the new local credentials
+
+> **Note**: This converts the account in place — don't create a separate user, or you'll get a fresh empty profile instead. Do this *after* any steps that require a Microsoft account (upgrading to Pro, BitLocker key management, and the account-data cleanup above).
 
 ## 🐛 Troubleshooting
 
@@ -349,8 +397,6 @@ Check the error message. Common issues:
 - Network connection problems
 - App doesn't support user-scope installation
 
-If this happens, just download and install the application manually from its website.
-
 ### WSL says "restart required"
 
 Run the script once, restart Windows, then run the script again.
@@ -359,14 +405,26 @@ Run the script once, restart Windows, then run the script again.
 
 The app doesn't support user-scope installation. The script automatically retries with system-wide installation and will show UAC prompt.
 
+### Widgets still appear on taskbar
+
+Run Windows Explorer restart:
+```powershell
+Stop-Process -Name explorer -Force
+```
+
 ## 📄 License
 
 MIT License - Feel free to use and modify
 
 ## 🙏 Contributing
 
-Issues and pull requests welcome! This is a personal setup script made public, so feel free to suggest your modifications if you think it will help lots of users.
+Issues and pull requests welcome! This is a personal setup script made public, so your mileage may vary.
 
 ## ✨ Credits
 
 Created by [Jeff Maher](https://github.com/jeffmaher)
+
+---
+
+**Last Updated**: December 2025  
+**Windows Version**: Windows 11 25H2
