@@ -426,5 +426,4 @@ Created by [Jeff Maher](https://github.com/jeffmaher)
 
 ---
 
-**Last Updated**: December 2025  
 **Windows Version**: Windows 11 25H2
