@@ -20,7 +20,6 @@ The scripts are split the same way:
 | `setup-user.zsh` | Each account | Once per account |
 | `setup-ssh-and-git.zsh` | Work and personal accounts | Once per account |
 | `install-uv.zsh` | Work and personal accounts | Once per account |
-| `update-apps.zsh` | Any account | Whenever you want updates |
 
 Clone this repo separately in each account rather than into a shared folder. A shared, writable copy could be edited from one account and then run from the admin account.
 
@@ -65,15 +64,12 @@ The script shows what it will change, asks for confirmation, and reports any ste
 - Wake for network access: Never
 - Turn display off on battery when inactive: 3 minutes
 - Turn display off on power adapter when inactive: 10 minutes
-- Canadian Shield encrypted DNS profile: opened for approval
-- Homebrew and shared command-line tools (currently `sevenzip`)
-- Rosetta 2: optional, asks first
 
 ## Manually configured
 
 ### DNS profile
 
-The script opens the profile, but macOS requires you to approve it: System Settings > General > Device Management, select the profile, and choose Install.
+Double-click `canadianshield-private-https.mobileconfig` to add it, then approve it: System Settings > General > Device Management, select the profile, and choose Install. It applies to every account.
 
 ### Software Update
 
@@ -85,7 +81,7 @@ System Settings > General > Software Update > Automatic Updates (info button):
 
 ### Rosetta 2
 
-macOS 27 doesn't install Rosetta by default, and it's the last version that supports it. Check System Settings > General > About for any Intel-based apps you still use and plan to replace them.
+macOS 27 doesn't install Rosetta by default, and it's the last version that supports it. If an Intel-only app needs it, macOS prompts you to install it. Check System Settings > General > About for any Intel-based apps you still use and plan to replace them.
 
 ### Wi-Fi and Bluetooth
 
@@ -115,9 +111,6 @@ The script shows everything it plans to change, asks for confirmation, and displ
 
 #### General
 
-- Autofill & Passkeys
-	- AutoFill Passwords and Passkeys: Off
-	- AutoFill From: Off
 - Airdrop & Handoff
 	- Allow Handoff between this Mac and your iCloud devices: Off
 	- Airplay Receiver: Off
@@ -187,7 +180,6 @@ The script shows everything it plans to change, asks for confirmation, and displ
 	- Open "safe" files after downloading: Unchecked
 - Tabs
 	- Tab layout: Compact
-- Autofill: Uncheck all
 - Search
 	- Search engine: DuckDuckGo
 	- Smart Search field
@@ -409,11 +401,3 @@ Both accounts keep running when you switch, but you won't see notifications from
 
 - **Installing apps or changing locked settings:** macOS asks for the admin account's name and password.
 - **Terminal commands that need sudo:** run `su <admin-account>` in that Terminal window first, then run the command.
-
-## Updating
-
-```
-zsh update-apps.zsh <admin-account>
-```
-
-This updates Homebrew packages (switching to the admin account for that step) and the current account's uv. Run it in each account to update each account's uv.
