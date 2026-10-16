@@ -19,7 +19,6 @@ The scripts are split the same way:
 | `setup-machine.zsh` | Admin account | Once per Mac |
 | `setup-user.zsh` | Each account | Once per account |
 | `setup-ssh-and-git.zsh` | Work and personal accounts | Once per account |
-| `install-uv.zsh` | Work and personal accounts | Once per account |
 
 Clone this repo separately in each account rather than into a shared folder. A shared, writable copy could be edited from one account and then run from the admin account.
 
@@ -103,7 +102,7 @@ Close System Settings first, then:
 zsh setup-user.zsh
 ```
 
-The script shows everything it plans to change, asks for confirmation, and displays each change as it's applied. It doesn't need admin rights. At the end, it checks whether `setup-machine.zsh` has been run and warns you if not.
+The script shows everything it plans to change, asks for confirmation, and displays each change as it's applied. It doesn't need admin rights.
 
 ### Automatically configured
 
@@ -356,16 +355,6 @@ When asked whether to set up separate personal and work accounts, answer **n**. 
 - In the **personal** account, enter your personal details.
 
 This keeps your work SSH key out of the personal account's home folder, and vice versa.
-
-## uv
-
-Install uv in each account that needs Python:
-
-```
-zsh install-uv.zsh
-```
-
-uv installs into `~/.local/bin` and keeps its Python versions per account, so each account has an independent copy.
 
 ## Apps
 
