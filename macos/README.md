@@ -1,36 +1,119 @@
-# First Time Setup
+# macOS Setup
 
-Get through all the setup screens, entering essentials (user account, Wi-Fi) and skipping optional steps (Apple Account, Touch ID, Apple Intelligence, Siri) since they're configured later in this guide.
+Written for macOS 27 (Golden Gate), which runs only on Apple silicon Macs.
 
-# Name your computer
+## How this setup is organized
 
-This controls what your computer shows up as on networks and Bluetooth. 
+This Mac uses three accounts:
 
-Go to Settings > General > About and change the name of your computer. Then, restart.
+- **Admin** account, used only to install software and change machine-wide settings.
+- **Work** account (standard user), for everything work-related.
+- **Personal** account (standard user), for everything personal.
 
-# Settings
+Keeping work and personal in separate standard accounts means code, browser sessions, and credentials in one can't be read from the other, and nothing you run day to day has admin rights.
 
-Many of the settings below can be applied automatically by running `setup-macos-defaults.zsh`. Close System Settings first, then:
+The scripts are split the same way:
+
+| Script | Run from | How often |
+| --- | --- | --- |
+| `setup-machine.zsh` | Admin account | Once per Mac |
+| `setup-user.zsh` | Each account | Once per account |
+| `setup-ssh-and-git.zsh` | Work and personal accounts | Once per account |
+| `install-uv.zsh` | Work and personal accounts | Once per account |
+| `update-apps.zsh` | Any account | Whenever you want updates |
+
+Clone this repo separately in each account rather than into a shared folder. A shared, writable copy could be edited from one account and then run from the admin account.
+
+# 1. First Time Setup
+
+Get through all the setup screens, entering essentials (user account, Wi-Fi) and skipping optional steps (Apple Account, Touch ID, Apple Intelligence, Siri) since they're configured later in this guide. macOS 27 adds a Liquid Glass setup screen; pick anything, since you can change it later in Appearance.
+
+The account you create during setup is an admin account. Use it as your **admin** account: give it a name like "Admin" and a strong password stored in your password manager.
+
+# 2. Create the work and personal accounts
+
+From the admin account, go to System Settings > Users & Groups > Add User, and create:
+
+- A **Standard** account for work
+- A **Standard** account for personal
+
+Make sure each account can unlock FileVault at startup. Accounts created by an admin normally can, and you can confirm in Terminal with:
 
 ```
-zsh setup-macos-defaults.zsh
+sysadminctl -secureTokenStatus <account-short-name>
 ```
 
-The script will show you everything it plans to change and ask for confirmation before proceeding. It will also display each change as it's applied.
+It should report that the secure token is enabled.
 
-## Automatically Configured
+# 3. Machine-level setup (admin account)
 
-**ℹ️ These are configured by `setup-macos-defaults.zsh`. You don't need to change them manually, but they're listed here so you know what was set.**
+Run this once, from the admin account:
 
-### Network
+```
+zsh setup-machine.zsh
+```
 
+The script shows what it will change, asks for confirmation, and reports any step that fails.
+
+## Automatically configured
+
+**ℹ️ These are configured by `setup-machine.zsh` and apply to every account.**
+
+- Computer name (optional prompt; also sets the network host name)
+- Startup sound: Off
 - Firewall: On
-
-### Battery
-
 - Wake for network access: Never
+- Turn display off on battery when inactive: 3 minutes
+- Turn display off on power adapter when inactive: 10 minutes
+- Canadian Shield encrypted DNS profile: opened for approval
+- Homebrew and shared command-line tools (currently `sevenzip`)
+- Rosetta 2: optional, asks first
 
-### General
+## Manually configured
+
+### DNS profile
+
+The script opens the profile, but macOS requires you to approve it: System Settings > General > Device Management, select the profile, and choose Install.
+
+### Software Update
+
+System Settings > General > Software Update > Automatic Updates (info button):
+
+- Keep "Install Security Responses and system files" On.
+- Decide whether to install macOS updates automatically. If work checks the OS version for compliance, don't let updates lag for long.
+- Beta Updates: Off
+
+### Rosetta 2
+
+macOS 27 doesn't install Rosetta by default, and it's the last version that supports it. Check System Settings > General > About for any Intel-based apps you still use and plan to replace them.
+
+### Wi-Fi and Bluetooth
+
+Add the Wi-Fi networks you use regularly and pair Bluetooth devices. These are generally shared across accounts, so doing it once is usually enough. If you have a hotspot (like with your phone), go to the settings for that connection and enable "Low Power Mode" so that it doesn't do big things like download updates while you're using it.
+
+### Touch ID
+
+Fingerprints belong to individual accounts, and the Mac can only store a limited number in total. Decide which fingers go to which account, then add them from within each account (step 4).
+
+# 4. Per-account setup (work and personal accounts)
+
+Log into each account and do everything in this section. Optionally run `setup-user.zsh` in the admin account too, so it's comfortable to use.
+
+## Settings
+
+Close System Settings first, then:
+
+```
+zsh setup-user.zsh
+```
+
+The script shows everything it plans to change, asks for confirmation, and displays each change as it's applied. It doesn't need admin rights. At the end, it checks whether `setup-machine.zsh` has been run and warns you if not.
+
+### Automatically configured
+
+**ℹ️ These are configured by `setup-user.zsh`. You don't need to change them manually, but they're listed here so you know what was set.**
+
+#### General
 
 - Autofill & Passkeys
 	- AutoFill Passwords and Passkeys: Off
@@ -43,74 +126,59 @@ The script will show you everything it plans to change and ask for confirmation 
 - Language & Region
 	- First day of week: Monday
 
-### Accessibility
+#### Accessibility
 
 - Display
 	- Differentiate without color: On
 	- Show toolbar button shapes: On
 
-### Appearance
+#### Appearance
 
 - Show scroll bars: Always
 
-### Desktop & Dock
+#### Desktop & Dock
 
 - Minimize windows into application icon: On
 - Automatically hide and show the Dock: On
 - Show suggested and recent apps in Dock: Off
 - Show Widgets: (unselect both "On Desktop" and "In Stage Manager")
-- iPhone Widgets: Off
 - Prefer tabs when opening documents: Always
 - Group windows by application: On
 - Hot Corners > Bottom Right: Off (disables Quick Note)
 - Displays have separate Spaces: Off (all monitors switch together, requires logout)
 
-### Screensaver
+#### Screensaver
 
 - Start screen saver: Never
 
-### Screenshots
+#### Screenshots
 
 - Save location: ~/Pictures/Screenshots
 
-### Sound
+#### Sound
 
-- Play sound on startup: Off
 - Play user interface sound effects: Off
 - Play feedback when volume is changed: On
 
-### Lock Screen
+#### Lock Screen
 
-- Require password after screen saver begins or display is turned off: Immediately
+- Require password after screen saver begins or display is turned off: Immediately (the script asks for your account password to set this)
 
-### Finder
+#### Finder
 
 - General
 	- Show these items on the desktop: (All off)
-- Sidebar, turn off:
-	- Shared
-	- Applications
-	- Desktop
-	- iCloud Drive
-	- AirDrop
 - Advanced
 	- Show all filename extensions: On
 	- Show warning before removing from iCloud Drive: Off
 	- Remove items from the Trash after 30 days: On
 	- When performing a search: Search the current folder
 
-### Spotlight
+#### Spotlight
 
 - Show related content: Off
-- Help Apple Improve Searches: Off
-- Results from Apps: turn Off all except:
-	- Calculator
-	- Contacts
-	- Dictionary
-	- Shortcuts
-	- System Settings
 
-### Safari
+#### Safari
 
 - General
 	- New windows open with: Empty Page
@@ -119,7 +187,6 @@ The script will show you everything it plans to change and ask for confirmation 
 	- Open "safe" files after downloading: Unchecked
 - Tabs
 	- Tab layout: Compact
-	- Show color in tab bar: Unchecked *(manual — not automatable)*
 - Autofill: Uncheck all
 - Search
 	- Search engine: DuckDuckGo
@@ -128,89 +195,31 @@ The script will show you everything it plans to change and ask for confirmation 
 		- Include Safari Suggestions: Unchecked
 		- Enable Quick Website Search: Unchecked
 		- Preload Top Hit in the background: Unchecked
-		- Show Start Page: Unchecked
-- Security
-	- Non-secure site connections
-		- Warn before connecting to a website over HTTP: Checked
 - Advanced
 	- Show features for web developers: Checked
 
-### Mouse
+#### Mouse
 
 - Natural scrolling: Off
 
-### Shell
+#### Shell
 
 - Tab completion initialization added to ~/.zshrc (enables completions for tools like uv, git, etc.)
 
-## Manually Configured
+### Manually configured
 
-These cannot be automated and must be configured by hand in System Settings.
+These cannot be automated and must be configured by hand in System Settings, in each account.
 
-### Apple Account
+#### Apple Account
 
-- Sign-in
+Sign in with the Apple Account that belongs to this context (for example, your personal Apple Account only in the personal account).
+
 - Media & Purchases
 	- Use Touch ID for Purchases: On
 
-### Wifi
+#### iCloud
 
-If you're using Wifi, add the networks you use regularly. If you have a hotspot (like with your phone), go to the settings for that connection and enable "Low Power Mode" so that it doesn't do big things like download updates while you're using it.
-
-### Bluetooth
-
-Pair any devices you want paired.
-
-### Apple Intelligence & Siri
-
-- Apple Intelligence: On
-- Siri: Off
-
-### Appearance
-
-- Appearance: Auto
-
-### Displays
-
-- True Tone: Off
-- If you're using multiple displays, arrange these accordingly using "Arrange" and, if on a laptop, set "Use as" to "Main Display"
-- Advanced
-	- Turn  off (if not using):
-		- Allow your pointer and keyboard to move between any nearby Mac or iPad
-		- Push through the edge of a display to connect a nearby Mac or iPad
-- Night Shift
-	- Schedule: Sunset to Sunrise
-
-### Menu Bar
-
-- Weather: On
-
-### Sound
-
-- Choose your external devices for Output and Input, both when plugged and unplugged from your dock/monitor
-- Alert sound: Funky
-
-### Focus
-
-- Do Not Disturb
-	- Set a schedule:
-		1. Add a schedule
-		1. Time-based
-		1. Start: 21:30
-		1. End: 8:00
-		1. Days: All
-	- Allowed People: (If you have contacts synced, anyone you want to be able to get through)
-
-### Lock Screen
-
-- Turn display off on battery when inactive: For 3 minutes
-- Turn display off on power adapter when inactive: For 10 minutes
-
-### Touch ID & Password
-
-Add your fingerprints
-
-### iCloud
+In accounts signed into an Apple Account:
 
 - Saved to iCloud > See all...
 	- Turn off:
@@ -240,31 +249,139 @@ Add your fingerprints
 	1. Set up a recovery method (recovery contact or recovery key) first
 	1. Enter your recovery code
 
-### Trackpad
+#### Siri
+
+macOS 27 replaces Siri with Siri AI, an opt-in beta.
+
+- System Settings > Siri
+	- Siri: Off
+	- Don't join the Siri AI waitlist ("Try Siri AI") unless you want it
+- Apple Intelligence: On (where available)
+
+#### Appearance
+
+- Appearance: Auto
+- Liquid Glass: choose a level where sidebar and toolbar text is easy to read
+
+#### Displays
+
+- True Tone: Off
+- If you're using multiple displays, arrange these accordingly using "Arrange" and, if on a laptop, set "Use as" to "Main Display"
+- Advanced
+	- Turn off (if not using):
+		- Allow your pointer and keyboard to move between any nearby Mac or iPad
+		- Push through the edge of a display to connect a nearby Mac or iPad
+- Night Shift
+	- Schedule: Sunset to Sunrise
+
+#### Menu Bar
+
+- Weather: On
+
+#### Sound
+
+- Choose your external devices for Output and Input, both when plugged and unplugged from your dock/monitor
+- Alert sound: Funky
+
+#### Focus
+
+- Do Not Disturb
+	- Set a schedule:
+		1. Add a schedule
+		1. Time-based
+		1. Start: 21:30
+		1. End: 8:00
+		1. Days: All
+	- Allowed People: (If you have contacts synced, anyone you want to be able to get through)
+
+#### Touch ID & Password
+
+Add this account's fingerprints (see the plan from step 3).
+
+#### Login Items & Extensions
+
+Review System Settings > General > Login Items & Extensions and turn off anything you don't need.
+
+#### Trackpad
 
 - Tracking speed: 7
 
-### Keyboard
+#### Keyboard
 
 - Disable all native window tiling shortcuts:
 	- System Settings > Keyboard > Keyboard Shortcuts > Windows
 	- Uncheck everything under General, Halves, and Quarters
 
-### Mouse
+#### Mouse
 
 - Tracking speed: 5
 - Scrolling speed: 6
 
-# Foundational Apps
+#### Finder
 
-Install third-party tools that you use to do basic things:
+- Sidebar, turn off:
+	- Shared
+	- Applications
+	- Desktop
+	- iCloud Drive
+	- AirDrop
 
-- Web browsers
-- Password Manager
-- Storage apps
-- Device controllers (like for keyboards, cameras, etc.)
+#### Spotlight
 
-# Window Tiling (Rectangle)
+Spotlight was rebuilt in macOS 27, so these options may be named or arranged differently.
+
+- Help Apple Improve Searches: Off
+- Results from Apps: turn Off all except:
+	- Calculator
+	- Contacts
+	- Dictionary
+	- Shortcuts
+	- System Settings
+
+#### Safari
+
+- Tabs
+	- Show color in tab bar: Unchecked
+	- Organize Tabs: Show Related Tabs (suggests groupings instead of rearranging tabs automatically)
+- Search
+	- Show Start Page: Unchecked
+- Security
+	- Non-secure site connections
+		- Warn before connecting to a website over HTTP: Checked
+- Install your password manager's browser extension
+
+## SSH and GitHub
+
+Run the SSH and Git script in each account:
+
+```
+zsh setup-ssh-and-git.zsh
+```
+
+When asked whether to set up separate personal and work accounts, answer **n**. Each macOS account gets only its own identity:
+
+- In the **work** account, enter your work name, email, and SSH email.
+- In the **personal** account, enter your personal details.
+
+This keeps your work SSH key out of the personal account's home folder, and vice versa.
+
+## uv
+
+Install uv in each account that needs Python:
+
+```
+zsh install-uv.zsh
+```
+
+uv installs into `~/.local/bin` and keeps its Python versions per account, so each account has an independent copy.
+
+## Apps
+
+Install the apps each account needs: web browsers, password manager, storage apps, and device controllers (like for keyboards, cameras, etc.).
+
+Installing into `/Applications` asks for the admin account's name and password. To keep an app to just one account, install it into `~/Applications` instead.
+
+### Window Tiling (Rectangle)
 
 Install [Rectangle](https://rectangleapp.com/) for window tiling. It intercepts shortcuts at a level that prevents apps from overriding them.
 
@@ -280,20 +397,23 @@ Shortcuts:
 - Bottom Left Quarter: CTRL + OPTION + J
 - Bottom Right Quarter: CTRL + OPTION + K
 
-# Setup Spaces for Work and Personal
+# Day-to-day use
 
-1. Add all apps you use frequently to the dock
-1. Create two Spaces (one for work and one for personal)
-1. Secondary click (or Ctrl+click) on each dock icon, and choose which workspace you want each to appear if you only use it within one context ("None" if used for both)
-1. Secondary click (or Ctrl+click) the desktop, choose Change Wallpaper
-	1. Turn off "Show on all Spaces"
-	1. Set a colour or wallpaper
-	1. Do this for your other space with a different colour or wallpaper
+## Switching accounts
 
-# Setup SSH and GitHub
+Turn on Fast User Switching to switch accounts from the menu bar: System Settings > Control Center > Fast User Switching > Show in Menu Bar.
 
-In this directory, there is a `setup-ssh-and-git-macos.zsh` script. Run that to setup work and personal SSH keys and GitHub configurations.
+Both accounts keep running when you switch, but you won't see notifications from the account you're not in. Keep apps you need to hear from (like Slack) on your phone as well.
 
-# Safari Extension
+## Admin tasks from a standard account
 
-After the automated Safari settings have been applied, install your password manager's browser extension.
+- **Installing apps or changing locked settings:** macOS asks for the admin account's name and password.
+- **Terminal commands that need sudo:** run `su <admin-account>` in that Terminal window first, then run the command.
+
+## Updating
+
+```
+zsh update-apps.zsh <admin-account>
+```
+
+This updates Homebrew packages (switching to the admin account for that step) and the current account's uv. Run it in each account to update each account's uv.
