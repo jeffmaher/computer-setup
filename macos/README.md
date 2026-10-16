@@ -1,6 +1,6 @@
 # macOS Setup
 
-Written for macOS 27 (Golden Gate), which runs only on Apple silicon Macs.
+Written for macOS 27 (Golden Gate).
 
 ## How this setup is organized
 
