@@ -93,9 +93,6 @@ echo ""
 echo "  Shell"
 echo "    - Add tab completion initialization to ~/.zshrc"
 echo ""
-echo "  Machine-level check (read-only)"
-echo "    - Report whether setup-machine.zsh has been run"
-echo ""
 echo "=========================================="
 read "CONFIRM?Proceed with these changes? (y/n): "
 
@@ -276,27 +273,6 @@ echo "Spotlight:"
 defaults write com.apple.Spotlight showedFTE -bool true
 defaults write com.apple.lookup.shared LookupSuggestionsDisabled -bool true
 echo "  - Disabled suggestions and related content"
-
-echo ""
-
-# ==========================================================================
-# Machine-level check (read-only)
-# ==========================================================================
-# These are set by setup-machine.zsh. This just reports whether they're on,
-# so you notice if the machine script hasn't been run yet.
-echo "Machine-level settings (read-only check):"
-
-if /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate | grep -qi "enabled"; then
-    echo "  - Firewall: on"
-else
-    echo "  ! Firewall: off (run setup-machine.zsh from the admin account)"
-fi
-
-if pmset -g | grep -Eq "^ *womp +0"; then
-    echo "  - Wake for network access: off"
-else
-    echo "  ! Wake for network access: on (run setup-machine.zsh from the admin account)"
-fi
 
 echo ""
 
