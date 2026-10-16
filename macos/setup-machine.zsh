@@ -10,8 +10,6 @@
 #
 # Written for macOS 27 (Golden Gate).
 
-SCRIPT_DIR="${0:A:h}"
-DNS_PROFILE="$SCRIPT_DIR/canadianshield-private-https.mobileconfig"
 FAILURES=()
 
 # --------------------------------------------------------------------------
@@ -44,13 +42,6 @@ echo ""
 echo "  Power"
 echo "    - Disable wake for network access"
 echo "    - Turn display off after 3 min on battery, 10 min on power adapter"
-echo ""
-echo "  Network"
-echo "    - Queue Canadian Shield encrypted DNS profile for approval"
-echo ""
-echo "  Software"
-echo "    - Install Homebrew (if missing) and shared command-line tools"
-echo "    - Install Rosetta 2 (optional, asks first)"
 echo ""
 echo "=========================================="
 read "CONFIRM?Proceed with these changes? (y/n): "
@@ -159,7 +150,6 @@ fi
 echo "=========================================="
 echo ""
 echo "Next steps:"
-echo "  - Approve the DNS profile in System Settings (if queued)"
 echo "  - Finish the manual machine-level settings in the README"
 echo "  - Log into each user account and run setup-user.zsh"
 echo "  - In each account, run setup-ssh-and-git.zsh (single-account mode)"

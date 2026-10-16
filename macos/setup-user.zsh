@@ -4,9 +4,8 @@
 # Run in EACH user account (work, personal, and optionally admin).
 # Works from a standard (non-admin) account; no sudo required.
 #
-# Machine-wide settings (firewall, startup sound, power, computer name,
-# DNS profile, Homebrew) live in setup-machine.zsh, run once from the
-# admin account.
+# Machine-wide settings (computer name, startup sound, firewall, power)
+# live in setup-machine.zsh, run once from the admin account.
 #
 # Note: Some settings require a logout/restart to take effect.
 # Note: Close System Settings before running this script to avoid conflicts.
