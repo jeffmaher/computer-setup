@@ -97,6 +97,8 @@ The script shows what it will change, asks for confirmation, and reports any ste
 
 ## Manually configured
 
+**✋ These steps aren't automated, so you have to do them by hand, once from the admin account.**
+
 ### Software Update
 
 System Settings > General > Software Update > Automatic Updates (info button):
@@ -223,7 +225,7 @@ The script shows everything it plans to change, asks for confirmation, and displ
 
 ### Manually configured
 
-These cannot be automated and must be configured by hand in System Settings, in each account.
+**✋ These steps aren't automated, so you have to do them by hand in each account.**
 
 #### Apple Account
 
