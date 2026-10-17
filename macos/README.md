@@ -1,6 +1,6 @@
 # macOS Setup
 
-Written for macOS 27 (Golden Gate).
+Last updated and tested on macOS 27 (Golden Gate).
 
 ## How this setup is organized
 
@@ -18,11 +18,27 @@ The scripts are split the same way:
 | --- | --- | --- |
 | `setup-machine.zsh` | Admin account | Once per Mac |
 | `setup-user.zsh` | Each account | Once per account |
-| `setup-ssh-and-git.zsh` | Work and personal accounts | Once per account |
+| `setup-ssh-and-git.zsh` | Each account | Once per account |
 
-Clone this repo separately in each account rather than into a shared folder. A shared, writable copy could be edited from one account and then run from the admin account.
+# 0. Wipe the Mac (optional)
 
-# 1. First Time Setup
+If the Mac is already set up and you want to start fresh, erase it first. This deletes everything on the Mac.
+
+Before erasing:
+
+- Back up any files you want to keep to an external drive or cloud storage
+- Push any code repositories, so nothing exists only on this Mac
+- Make a list of the apps you have installed (`ls /Applications`), to use when reinstalling
+- Confirm your password manager has everything, including two-factor recovery codes
+- If work manages device checks for this Mac, confirm with IT that re-enrolling the device is fine
+
+To erase: System Settings > General > Transfer or Reset > Erase All Content and Settings. This also signs out of your Apple Account and turns off Find My.
+
+During first time setup (step 1), don't transfer information from a backup or another Mac, so the old setup doesn't come back.
+
+After setting up SSH keys (step 5), remove the old Mac's SSH keys from GitHub and anywhere else they were registered.
+
+# 1. First time setup
 
 Get through all the setup screens, entering essentials (user account, Wi-Fi) and skipping optional steps (Apple Account, Touch ID, Apple Intelligence, Siri) since they're configured later in this guide.
 
@@ -30,7 +46,19 @@ When asked about FileVault, choose to create a recovery key rather than letting 
 
 The account you create during setup is an admin account. Use it as your **admin** account: give it a name like "Admin" and a strong password stored in your password manager.
 
-# 2. Create the work and personal accounts
+# 2. Get the scripts
+
+Download the scripts in each account where you run them, starting with the admin account. Don't share one copy between accounts: a shared, writable copy could be edited from one account and then run from the admin account.
+
+1. In Safari, download https://github.com/jeffmaher/computer-setup/archive/refs/heads/main.zip
+1. In Finder, open Downloads and double-click the ZIP to unzip it, if Safari hasn't already. This creates a `computer-setup-main` folder.
+1. In Terminal, go to the scripts folder, and run the scripts from there:
+
+	```
+	cd ~/Downloads/computer-setup-main/macos
+	```
+
+# 3. Create the work and personal accounts
 
 From the admin account, go to System Settings > Users & Groups > Add User, and create:
 
@@ -45,9 +73,9 @@ sysadminctl -secureTokenStatus <account-short-name>
 
 It should report that the secure token is enabled.
 
-# 3. Machine-level setup (admin account)
+# 4. Machine-level setup (admin account)
 
-Run this once, from the admin account:
+Run this once, from the admin account, in the scripts folder from step 2:
 
 ```
 zsh setup-machine.zsh
@@ -83,11 +111,11 @@ Add the Wi-Fi networks you use regularly and pair Bluetooth devices. These are g
 
 ### Touch ID
 
-Fingerprints belong to individual accounts, and the Mac can only store a limited number in total. Decide which fingers go to which account, then add them from within each account (step 4).
+Fingerprints belong to individual accounts, and the Mac can only store a limited number in total. Decide which fingers go to which account, then add them from within each account (step 5).
 
-# 4. Per-account setup (work and personal accounts)
+# 5. Per-account setup (work and personal accounts)
 
-Log into each account and do everything in this section. Optionally run `setup-user.zsh` in the admin account too, so it's comfortable to use.
+Log into each account and do everything in this section. Start by getting the scripts in that account (step 2). Optionally run `setup-user.zsh` in the admin account too, so it's comfortable to use.
 
 ## Settings
 
@@ -208,30 +236,7 @@ Sign in with the Apple Account that belongs to this context (for example, your p
 
 In accounts signed into an Apple Account:
 
-- Saved to iCloud > See all...
-	- Turn off:
-		- Photos
-		- iCloud Drive
-		- Passwords & Keychain
-		- Notes
-		- iCloud Mail
-		- Contacts
-		- iCloud Calendar
-		- Reminders
-		- News
-		- Stocks
-		- Home
-		- Freeform
-		- Image Playground
-		- Journal
-	- Turn on:
-		- Messages in iCloud, keep messages for 30 days
-		- Safari
-		- Wallet
-		- Facetime
-		- Maps
-		- Siri
-		- Shortcuts
+- Saved to iCloud > See all...: turn on the services you use and turn off the ones you don't
 - Advanced Data Protection: On
 	1. Set up a recovery contact or recovery key first (System Settings > your name > Sign-In & Security > Account Recovery). This is your Apple Account's recovery key, not the FileVault one. Save it in your password manager.
 	1. Turn on Advanced Data Protection; it asks you to confirm the recovery method
@@ -241,7 +246,7 @@ In accounts signed into an Apple Account:
 Turning Siri on involves confirmation and setup prompts, so it's done by hand.
 
 - System Settings > Siri
-	- Turn on Siri, then click "Try Siri AI (Beta)" to use the macOS 27 version
+	- Turn on Siri, and choose Siri AI if offered (shown as "Try Siri AI (Beta)" in macOS 27)
 	- Allow Siri when locked: Off
 - Apple Intelligence: On (where available)
 
@@ -278,7 +283,7 @@ Turning Siri on involves confirmation and setup prompts, so it's done by hand.
 
 #### Touch ID & Password
 
-Add this account's fingerprints (see the plan from step 3).
+Add this account's fingerprints (see the plan from step 4).
 
 #### Login Items & Extensions
 
@@ -309,8 +314,6 @@ Review System Settings > General > Login Items & Extensions and turn off anythin
 	- AirDrop
 
 #### Spotlight
-
-Spotlight was rebuilt in macOS 27, so these options may be named or arranged differently.
 
 - Help Apple Improve Searches: Off
 - Results from Apps: turn Off all except:

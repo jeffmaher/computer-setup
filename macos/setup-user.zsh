@@ -9,23 +9,17 @@
 #
 # Note: Some settings require a logout/restart to take effect.
 # Note: Close System Settings before running this script to avoid conflicts.
-# Note: Written for macOS 27 (Golden Gate). The defaults keys were originally
-#       tested on macOS Tahoe 26, and Apple doesn't guarantee them across
-#       versions. Spotlight was rebuilt in macOS 27, so its keys are the most
-#       likely to have changed. If a setting doesn't take effect, set it in
-#       System Settings by hand.
+# Note: Apple doesn't guarantee defaults keys across macOS versions. The
+#       README notes the version this was last tested on. If a setting
+#       doesn't take effect, set it in System Settings by hand.
 
 echo "=========================================="
 echo "macOS Per-User Settings ($(whoami))"
 echo "=========================================="
 echo ""
 
-OS_VERSION=$(sw_vers -productVersion)
-if [[ ${OS_VERSION%%.*} -ne 27 ]]; then
-    echo "Note: this script was written for macOS 27; this Mac is on $OS_VERSION."
-    echo "Some settings may behave differently."
-    echo ""
-fi
+echo "Running on macOS $(sw_vers -productVersion)."
+echo ""
 echo "Make sure System Settings is closed before"
 echo "running this script."
 echo ""

@@ -7,8 +7,6 @@
 # don't need to be repeated in your work or personal accounts.
 #
 # Per-user settings live in setup-user.zsh, which you run in each account.
-#
-# Written for macOS 27 (Golden Gate).
 
 FAILURES=()
 
@@ -26,12 +24,8 @@ echo "macOS Machine-Level Setup"
 echo "=========================================="
 echo ""
 
-OS_VERSION=$(sw_vers -productVersion)
-if [[ ${OS_VERSION%%.*} -ne 27 ]]; then
-    echo "Note: this script was written for macOS 27; this Mac is on $OS_VERSION."
-    echo "Some settings may behave differently."
-    echo ""
-fi
+echo "Running on macOS $(sw_vers -productVersion)."
+echo ""
 echo "This script will make the following machine-wide changes:"
 echo ""
 echo "  System"
