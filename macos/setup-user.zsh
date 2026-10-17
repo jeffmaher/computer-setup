@@ -1,17 +1,24 @@
 #!/bin/zsh
 
-# macOS Settings Automation Script
-# Automates the settings from README.md that can be configured via defaults write.
+# macOS Per-User Settings
+# Run in EACH user account (work, personal, and optionally admin).
+# Works from a standard (non-admin) account; no sudo required.
+#
+# Machine-wide settings (computer name, startup sound, firewall, power)
+# live in setup-machine.zsh, run once from the admin account.
 #
 # Note: Some settings require a logout/restart to take effect.
 # Note: Close System Settings before running this script to avoid conflicts.
-# Note: These defaults keys have been tested on macOS Tahoe 26. Apple does not
-#       guarantee these keys across versions. If a setting doesn't take effect,
-#       check System Settings manually and see the README for backup/restore info.
+# Note: Apple doesn't guarantee defaults keys across macOS versions. The
+#       README notes the version this was last tested on. If a setting
+#       doesn't take effect, set it in System Settings by hand.
 
 echo "=========================================="
-echo "macOS Settings Automation"
+echo "macOS Per-User Settings ($(whoami))"
 echo "=========================================="
+echo ""
+
+echo "Running on macOS $(sw_vers -productVersion)."
 echo ""
 echo "Make sure System Settings is closed before"
 echo "running this script."
@@ -23,11 +30,11 @@ echo "    - Disable Handoff between devices"
 echo "    - Disable AirPlay Receiver"
 echo "    - Enable 24-hour time format"
 echo "    - Set first day of week to Monday"
-echo "    - Disable AutoFill for passwords and forms"
 echo ""
 echo "  Accessibility"
 echo "    - Enable differentiate without color"
 echo "    - Show toolbar button shapes"
+echo "    - Reduce transparency"
 echo ""
 echo "  Appearance"
 echo "    - Always show scroll bars"
@@ -49,12 +56,11 @@ echo "  Screenshots"
 echo "    - Save screenshots and screen recordings to ~/Pictures/Screenshots"
 echo ""
 echo "  Sound"
-echo "    - Disable startup sound (requires admin password)"
 echo "    - Disable user interface sound effects (trash, screenshots, etc.)"
 echo "    - Enable volume change feedback sound"
 echo ""
 echo "  Lock Screen"
-echo "    - Require password immediately after sleep"
+echo "    - Require password immediately after sleep (asks for your password)"
 echo ""
 echo "  Finder"
 echo "    - Hide all items from desktop"
@@ -66,18 +72,11 @@ echo ""
 echo "  Spotlight"
 echo "    - Disable suggestions and related content"
 echo ""
-echo "  Firewall"
-echo "    - Enable firewall (requires admin password)"
-echo ""
-echo "  Battery"
-echo "    - Disable wake for network access"
-echo ""
 echo "  Safari"
 echo "    - Set new windows and tabs to Empty Page"
 echo "    - Remove history after one month"
 echo "    - Disable auto-open of safe downloads"
 echo "    - Set tab layout to Compact"
-echo "    - Disable all AutoFill"
 echo "    - Set search engine to DuckDuckGo"
 echo "    - Disable search suggestions and Safari Suggestions"
 echo "    - Disable Quick Website Search and Preload Top Hit"
@@ -99,15 +98,6 @@ fi
 
 echo ""
 
-# Request admin privileges upfront so sudo commands later don't interrupt
-echo "Some settings require admin privileges."
-sudo -v
-if [[ $? -ne 0 ]]; then
-    echo "Admin privileges are required. Exiting."
-    exit 1
-fi
-
-echo ""
 echo "=========================================="
 echo "Applying changes..."
 echo "=========================================="
@@ -131,12 +121,6 @@ echo "  - Enabled 24-hour time format"
 defaults write NSGlobalDomain AppleFirstWeekday -dict gregorian -int 2
 echo "  - Set first day of week to Monday"
 
-defaults write com.apple.Safari AutoFillFromAddressBook -bool false
-defaults write com.apple.Safari AutoFillPasswords -bool false
-defaults write com.apple.Safari AutoFillCreditCardData -bool false
-defaults write com.apple.Safari AutoFillMiscellaneousForms -bool false
-echo "  - Disabled AutoFill for passwords and forms"
-
 echo ""
 
 # ==========================================================================
@@ -149,6 +133,13 @@ echo "  - Enabled differentiate without color"
 
 defaults write com.apple.universalaccess showToolbarButtonShapes -bool true
 echo "  - Enabled toolbar button shapes"
+
+if defaults write com.apple.universalaccess reduceTransparency -bool true 2>/dev/null; then
+    echo "  - Enabled reduce transparency"
+else
+    echo "  ! Could not set reduce transparency. Set it manually:"
+    echo "    System Settings > Accessibility > Display > Reduce transparency"
+fi
 
 echo ""
 
@@ -222,9 +213,6 @@ echo ""
 # ==========================================================================
 echo "Sound:"
 
-sudo nvram StartupMute=%01 2>/dev/null
-echo "  - Disabled startup sound"
-
 defaults write com.apple.systemsound "com.apple.sound.uiaudio.enabled" -int 0
 echo "  - Disabled user interface sound effects"
 
@@ -238,9 +226,19 @@ echo ""
 # ==========================================================================
 echo "Lock Screen:"
 
+# On recent macOS, the askForPassword defaults keys are largely ignored.
+# sysadminctl is the supported route; it applies to the current user and
+# prompts for this account's password. The defaults keys are kept as a
+# fallback for older versions.
 defaults write com.apple.screensaver askForPassword -int 1
 defaults write com.apple.screensaver askForPasswordDelay -int 0
-echo "  - Require password immediately after sleep or screensaver"
+if sysadminctl -screenLock immediate -password - 2>/dev/null; then
+    echo "  - Require password immediately after sleep or screensaver"
+else
+    echo "  ! Could not set screen lock via sysadminctl."
+    echo "    Set it manually: System Settings > Lock Screen >"
+    echo "    Require password after screen saver begins or display is turned off: Immediately"
+fi
 
 echo ""
 
@@ -281,26 +279,6 @@ echo "  - Disabled suggestions and related content"
 echo ""
 
 # ==========================================================================
-# Firewall
-# ==========================================================================
-echo "Firewall:"
-
-sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on 2>/dev/null
-echo "  - Enabled firewall"
-
-echo ""
-
-# ==========================================================================
-# Battery
-# ==========================================================================
-echo "Battery:"
-
-sudo pmset -a womp 0
-echo "  - Disabled wake for network access"
-
-echo ""
-
-# ==========================================================================
 # Safari
 # ==========================================================================
 echo "Safari:"
@@ -319,12 +297,6 @@ echo "  - Disabled auto-open of safe downloads"
 
 defaults write com.apple.Safari ShowStandaloneTabBar -bool false
 echo "  - Set tab layout to Compact"
-
-defaults write com.apple.Safari AutoFillFromAddressBook -bool false
-defaults write com.apple.Safari AutoFillPasswords -bool false
-defaults write com.apple.Safari AutoFillCreditCardData -bool false
-defaults write com.apple.Safari AutoFillMiscellaneousForms -bool false
-echo "  - Disabled all AutoFill"
 
 defaults write com.apple.Safari SearchProviderShortName -string "DuckDuckGo"
 echo "  - Set search engine to DuckDuckGo"
@@ -397,6 +369,8 @@ echo "Some changes may require a logout or restart."
 echo ""
 echo "Verify the changes in System Settings, then"
 echo "proceed with the manual settings in the README."
+echo ""
+echo "Repeat this script in each of your other accounts."
 echo ""
 echo "=========================================="
 echo ""
