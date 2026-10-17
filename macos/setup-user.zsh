@@ -40,6 +40,7 @@ echo ""
 echo "  Accessibility"
 echo "    - Enable differentiate without color"
 echo "    - Show toolbar button shapes"
+echo "    - Reduce transparency"
 echo ""
 echo "  Appearance"
 echo "    - Always show scroll bars"
@@ -138,6 +139,13 @@ echo "  - Enabled differentiate without color"
 
 defaults write com.apple.universalaccess showToolbarButtonShapes -bool true
 echo "  - Enabled toolbar button shapes"
+
+if defaults write com.apple.universalaccess reduceTransparency -bool true 2>/dev/null; then
+    echo "  - Enabled reduce transparency"
+else
+    echo "  ! Could not set reduce transparency. Set it manually:"
+    echo "    System Settings > Accessibility > Display > Reduce transparency"
+fi
 
 echo ""
 

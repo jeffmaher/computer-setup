@@ -43,6 +43,9 @@ echo "  Power"
 echo "    - Disable wake for network access"
 echo "    - Turn display off after 3 min on battery, 10 min on power adapter"
 echo ""
+echo "  Software"
+echo "    - Install Command Line Tools (compilers, git) if missing"
+echo ""
 echo "=========================================="
 read "CONFIRM?Proceed with these changes? (y/n): "
 
@@ -134,6 +137,26 @@ report $? "Display off after 10 minutes on power adapter"
 
 echo ""
 
+# ==========================================================================
+# Command Line Tools
+# ==========================================================================
+# Installed system-wide, so every account gets compilers and git.
+# xcode-select --install opens Apple's installer dialog and returns right
+# away, so the script waits for you to finish it before checking.
+echo "Command Line Tools:"
+
+if xcode-select -p >/dev/null 2>&1; then
+    echo "  - Already installed"
+else
+    xcode-select --install 2>/dev/null
+    echo "  Apple's installer dialog should now be open."
+    echo "  Click Install, wait for it to finish, then come back here."
+    read "?  Press Return when the installation is complete... "
+    xcode-select -p >/dev/null 2>&1
+    report $? "Installed Command Line Tools"
+fi
+
+echo ""
 
 # ==========================================================================
 # Summary
@@ -152,7 +175,7 @@ echo ""
 echo "Next steps:"
 echo "  - Finish the manual machine-level settings in the README"
 echo "  - Log into each user account and run setup-user.zsh"
-echo "  - In each account, run setup-ssh-and-git.zsh (single-account mode)"
+echo "  - In each account, run setup-ssh-and-git.zsh"
 echo ""
 echo "A restart is recommended for the computer name to show everywhere."
 echo ""

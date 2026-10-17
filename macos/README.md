@@ -24,7 +24,9 @@ Clone this repo separately in each account rather than into a shared folder. A s
 
 # 1. First Time Setup
 
-Get through all the setup screens, entering essentials (user account, Wi-Fi) and skipping optional steps (Apple Account, Touch ID, Apple Intelligence, Siri) since they're configured later in this guide. macOS 27 adds a Liquid Glass setup screen; pick anything, since you can change it later in Appearance.
+Get through all the setup screens, entering essentials (user account, Wi-Fi) and skipping optional steps (Apple Account, Touch ID, Apple Intelligence, Siri) since they're configured later in this guide.
+
+When asked about FileVault, choose to create a recovery key rather than letting your iCloud account unlock the disk, and save the key in your password manager.
 
 The account you create during setup is an admin account. Use it as your **admin** account: give it a name like "Admin" and a strong password stored in your password manager.
 
@@ -63,12 +65,9 @@ The script shows what it will change, asks for confirmation, and reports any ste
 - Wake for network access: Never
 - Turn display off on battery when inactive: 3 minutes
 - Turn display off on power adapter when inactive: 10 minutes
+- Command Line Tools (compilers and git), if not already installed. The script opens Apple's installer and waits for you to finish it.
 
 ## Manually configured
-
-### DNS profile
-
-Double-click `canadianshield-private-https.mobileconfig` to add it, then approve it: System Settings > General > Device Management, select the profile, and choose Install. It applies to every account.
 
 ### Software Update
 
@@ -77,10 +76,6 @@ System Settings > General > Software Update > Automatic Updates (info button):
 - Keep "Install Security Responses and system files" On.
 - Decide whether to install macOS updates automatically. If work checks the OS version for compliance, don't let updates lag for long.
 - Beta Updates: Off
-
-### Rosetta 2
-
-macOS 27 doesn't install Rosetta by default, and it's the last version that supports it. If an Intel-only app needs it, macOS prompts you to install it. Check System Settings > General > About for any Intel-based apps you still use and plan to replace them.
 
 ### Wi-Fi and Bluetooth
 
@@ -123,6 +118,7 @@ The script shows everything it plans to change, asks for confirmation, and displ
 - Display
 	- Differentiate without color: On
 	- Show toolbar button shapes: On
+	- Reduce transparency: On
 
 #### Appearance
 
@@ -237,22 +233,21 @@ In accounts signed into an Apple Account:
 		- Siri
 		- Shortcuts
 - Advanced Data Protection: On
-	1. Set up a recovery method (recovery contact or recovery key) first
-	1. Enter your recovery code
+	1. Set up a recovery contact or recovery key first (System Settings > your name > Sign-In & Security > Account Recovery). This is your Apple Account's recovery key, not the FileVault one. Save it in your password manager.
+	1. Turn on Advanced Data Protection; it asks you to confirm the recovery method
 
 #### Siri
 
-macOS 27 replaces Siri with Siri AI, an opt-in beta.
+Turning Siri on involves confirmation and setup prompts, so it's done by hand.
 
 - System Settings > Siri
-	- Siri: Off
-	- Don't join the Siri AI waitlist ("Try Siri AI") unless you want it
+	- Turn on Siri, then click "Try Siri AI (Beta)" to use the macOS 27 version
+	- Allow Siri when locked: Off
 - Apple Intelligence: On (where available)
 
 #### Appearance
 
 - Appearance: Auto
-- Liquid Glass: choose a level where sidebar and toolbar text is easy to read
 
 #### Displays
 
@@ -264,10 +259,6 @@ macOS 27 replaces Siri with Siri AI, an opt-in beta.
 		- Push through the edge of a display to connect a nearby Mac or iPad
 - Night Shift
 	- Schedule: Sunset to Sunrise
-
-#### Menu Bar
-
-- Weather: On
 
 #### Sound
 
@@ -339,22 +330,21 @@ Spotlight was rebuilt in macOS 27, so these options may be named or arranged dif
 - Security
 	- Non-secure site connections
 		- Warn before connecting to a website over HTTP: Checked
-- Install your password manager's browser extension
 
 ## SSH and GitHub
 
-Run the SSH and Git script in each account:
+Run the SSH and Git script in each account that uses git:
 
 ```
 zsh setup-ssh-and-git.zsh
 ```
 
-When asked whether to set up separate personal and work accounts, answer **n**. Each macOS account gets only its own identity:
+It sets up one git identity and SSH key for the account you run it in:
 
-- In the **work** account, enter your work name, email, and SSH email.
+- In the **work** account, enter your work name and email.
 - In the **personal** account, enter your personal details.
 
-This keeps your work SSH key out of the personal account's home folder, and vice versa.
+This keeps your work SSH key out of the personal account's home folder, and vice versa. If the account already has an SSH key, the script keeps it instead of creating a new one.
 
 ## Apps
 
@@ -384,7 +374,7 @@ Shortcuts:
 
 Turn on Fast User Switching to switch accounts from the menu bar: System Settings > Control Center > Fast User Switching > Show in Menu Bar.
 
-Both accounts keep running when you switch, but you won't see notifications from the account you're not in. Keep apps you need to hear from (like Slack) on your phone as well.
+Both accounts keep running when you switch, but you won't see notifications from the account you're not in.
 
 ## Admin tasks from a standard account
 
