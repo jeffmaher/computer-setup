@@ -129,6 +129,8 @@ zsh setup-user.zsh
 
 The script shows everything it plans to change, asks for confirmation, and displays each change as it's applied. It doesn't need admin rights.
 
+If a setting can't be applied, the script says so and lists it at the end with where to set it by hand.
+
 ### Automatically configured
 
 **ℹ️ These are configured by `setup-user.zsh`. You don't need to change them manually, but they're listed here so you know what was set.**
@@ -147,7 +149,6 @@ The script shows everything it plans to change, asks for confirmation, and displ
 
 - Display
 	- Differentiate without color: On
-	- Show toolbar button shapes: On
 	- Reduce transparency: On
 
 #### Appearance
@@ -163,7 +164,6 @@ The script shows everything it plans to change, asks for confirmation, and displ
 - Prefer tabs when opening documents: Always
 - Group windows by application: On
 - Hot Corners > Bottom Right: Off (disables Quick Note)
-- Displays have separate Spaces: Off (all monitors switch together, requires logout)
 
 #### Screensaver
 
@@ -196,24 +196,18 @@ The script shows everything it plans to change, asks for confirmation, and displ
 
 - Show related content: Off
 
-#### Safari
+#### Keyboard
 
-- General
-	- New windows open with: Empty Page
-	- New tabs open with: Empty Page
-	- Remove history items: After one month
-	- Open "safe" files after downloading: Unchecked
-- Tabs
-	- Tab layout: Compact
-- Search
-	- Search engine: DuckDuckGo
-	- Smart Search field
-		- Include search engine suggestions: Unchecked
-		- Include Safari Suggestions: Unchecked
-		- Enable Quick Website Search: Unchecked
-		- Preload Top Hit in the background: Unchecked
-- Advanced
-	- Show features for web developers: Checked
+Window tiling shortcuts, for the items in Window > Move & Resize. Apps pick these up when they're next opened, so log out and back in to apply them everywhere.
+
+- Left: Control + Option + Command + Left Arrow
+- Right: Control + Option + Command + Right Arrow
+- Top: Control + Option + Command + Up Arrow
+- Bottom: Control + Option + Command + Down Arrow
+- Top Left: Control + Option + Command + U
+- Top Right: Control + Option + Command + I
+- Bottom Left: Control + Option + Command + J
+- Bottom Right: Control + Option + Command + K
 
 #### Mouse
 
@@ -251,6 +245,11 @@ Turning Siri on involves confirmation and setup prompts, so it's done by hand.
 	- Turn on Siri, and choose Siri AI if offered (shown as "Try Siri AI (Beta)" in macOS 27)
 	- Allow Siri when locked: Off
 - Apple Intelligence: On (where available)
+
+#### Accessibility
+
+- Display
+	- Show toolbar button shapes: On
 
 #### Appearance
 
@@ -295,12 +294,6 @@ Review System Settings > General > Login Items & Extensions and turn off anythin
 
 - Tracking speed: 7
 
-#### Keyboard
-
-- Disable all native window tiling shortcuts:
-	- System Settings > Keyboard > Keyboard Shortcuts > Windows
-	- Uncheck everything under General, Halves, and Quarters
-
 #### Mouse
 
 - Tracking speed: 5
@@ -327,14 +320,29 @@ Review System Settings > General > Login Items & Extensions and turn off anythin
 
 #### Safari
 
+In Safari > Settings:
+
+- General
+	- New windows open with: Empty Page
+	- New tabs open with: Empty Page
+	- Remove history items: After one month
+	- Open "safe" files after downloading: Unchecked
 - Tabs
+	- Tab layout: Compact
 	- Show color in tab bar: Unchecked
 	- Organize Tabs: Show Related Tabs (suggests groupings instead of rearranging tabs automatically)
 - Search
+	- Search engine: DuckDuckGo
+	- Include search engine suggestions: Unchecked
+	- Include Safari Suggestions: Unchecked
+	- Enable Quick Website Search: Unchecked
+	- Preload Top Hit in the background: Unchecked
 	- Show Start Page: Unchecked
 - Security
 	- Non-secure site connections
 		- Warn before connecting to a website over HTTP: Checked
+- Advanced
+	- Show features for web developers: Checked
 
 ## SSH and GitHub
 
@@ -356,22 +364,6 @@ This keeps your work SSH key out of the personal account's home folder, and vice
 Install the apps each account needs: web browsers, password manager, storage apps, and device controllers (like for keyboards, cameras, etc.).
 
 Installing into `/Applications` asks for the admin account's name and password. To keep an app to just one account, install it into `~/Applications` instead.
-
-### Window Tiling (Rectangle)
-
-Install [Rectangle](https://rectangleapp.com/) for window tiling. It intercepts shortcuts at a level that prevents apps from overriding them.
-
-Shortcuts:
-
-- Fill: CTRL + OPTION + M
-- Left Half: CTRL + OPTION + LEFT ARROW
-- Right Half: CTRL + OPTION + RIGHT ARROW
-- Top Half: CTRL + OPTION + UP ARROW
-- Bottom Half: CTRL + OPTION + DOWN ARROW
-- Top Left Quarter: CTRL + OPTION + U
-- Top Right Quarter: CTRL + OPTION + I
-- Bottom Left Quarter: CTRL + OPTION + J
-- Bottom Right Quarter: CTRL + OPTION + K
 
 # Day-to-day use
 
